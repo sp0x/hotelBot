@@ -1,0 +1,5 @@
+python-telegram-bot
+spacy
+rasa_nlu
+sklearn_crfsuite
+python-google-places

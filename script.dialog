@@ -1,0 +1,43 @@
+{
+    "opener":["Hi there", "Hi", "Hey", "Hello"],
+    "closer":[],
+    "conversation":[
+        {
+            "question":"Which city do you want to grab a flight from?",
+            "accepted":"",
+            "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
+            "attribute":"city",
+            "entities":["GPE","location", "ORG"],
+            "intent":["visit"]
+        },
+        {
+            "question":"To which city will you be flying?",
+            "accepted":"",
+            "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
+            "attribute":"city",
+            "entities":["GPE","location", "ORG"],
+            "intent":["visit"]
+        },
+        {
+            "question":"When do you want to leave {city}?",
+            "accepted":"",
+            "rejected":"I didn't catch that. Can you use a different phrase?",
+            "attribute":"date",
+            "entities":"DATE"
+        },
+        {
+            "question":"When will you be flying back {city}?",
+            "accepted":"",
+            "rejected":"I didn't catch that. Can you use a different phrase?",
+            "attribute":"date",
+            "entities":"DATE"
+        },
+        {
+            "question":"Will you be traveling with someone else? To help you out I need a count of the passengers.",
+            "accepted":"",
+            "rejected":"I didn't catch that. Can you use a different phrase?",
+            "attribute":"date",
+            "entities":"DATE"
+        }
+    ]
+}

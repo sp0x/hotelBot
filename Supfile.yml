@@ -1,0 +1,134 @@
+version: 0.4
+
+#The environment vars you'll use
+env:
+  NAME: flight_bot
+  BRANCH: master
+  IMAGE: netlyt/flight_bot
+  REGISTRY: registry.netlyt.io:5000
+  HOST_PORT: 8801
+  CONTAINER_PORT: 5000
+
+networks:
+  # The staging directory
+  stg:
+    hosts:
+      - v_m_naydenova@35.243.173.143
+
+commands:
+  #These commands are just helpers, don't modify them
+  ping:
+    desc: Print uname and current date/time
+    run: uname -a; date
+
+  bash:
+    desc: Interactive shell on all hosts
+    stdin: true
+    run: bash
+
+
+  pre-build:
+    desc: Initialize directory
+    run: mkdir -p /tmp/$IMAGE
+
+  build:
+    desc: Build Docker image from current directory, push to Docker Hub
+    # local: sup $SUP_ENV -f ./builder/Supfile $SUP_NETWORK build
+    upload:
+      - src: ./
+        dst: /tmp/$IMAGE
+        exclude: venv,.git
+
+    script: ./scripts/docker-build.sh
+    once: true
+
+  pull:
+    desc: Pull latest Docker image
+    run: sudo docker pull $REGISTRY/$IMAGE
+
+  config:
+    desc: Upload/test config file.
+    upload:
+      - src: ./example.$SUP_NETWORK.cfg
+        dst: /tmp/$IMAGE
+    run: test -f /tmp/$IMAGE/example.$SUP_NETWORK.cfg
+
+  stop:
+    desc: Stop Docker container
+    run: sudo docker stop $NAME || exit 0
+
+  rm:
+    desc: Remove Docker container
+    run: sudo docker rm $NAME || exit 0
+
+  start:
+    desc: Start a stopped Docker container
+    run: sudo docker start $NAME || exit 0
+
+#  run_with_config:
+#    desc: Run Docker container
+#    run: >
+#      sudo docker run -d \
+#        -p $HOST_PORT:$CONTAINER_PORT \
+#        -v /tmp/example.$SUP_NETWORK.cfg:/etc/example.cfg \
+#        --restart=always \
+#        --name $NAME $IMAGE
+
+  run:
+    desc: Run Docker container
+    run: >
+      sudo docker run -d \
+        -p $HOST_PORT:$CONTAINER_PORT \
+        --restart=always \
+        --name $NAME $REGISTRY\$IMAGE
+
+  restart:
+    desc: Restart Docker container
+    run: sudo docker restart $IMAGE || exit 0
+
+  stop-rm-run:
+    desc: Rolling update (stop & remove old Docker container, run new one)
+    run: >
+      sudo docker stop $NAME || :; \
+        sudo docker rm $NAME || :; \
+        sudo docker run -d \
+          -p $HOST_PORT:$CONTAINER_PORT \
+          -v /tmp/$NAME/example.$SUP_NETWORK.cfg:/etc/example.cfg \
+          --restart=always \
+          --name $NAME $NAME
+    serial: 1
+
+  ps:
+    desc: List running Docker containers
+    run: sudo docker ps | grep $NAME
+
+  logs:
+    desc: Docker logs
+    run: sudo docker logs $NAME
+
+  tail-logs:
+    desc: Tail Docker logs
+    run: sudo docker logs --tail=20 -f $NAME
+
+  health:
+    desc: Application health check
+    run: curl localhost:$HOST_PORT
+
+  slack-notify:
+    desc: Notify Slack about new deployment
+    run: >
+      curl -X POST --data-urlencode 'payload={"channel": "#dev", "text": "['$SUP_NETWORK'] '$SUP_USER' deployed '$IMAGE'. Access through http://'$(curl ifconfig.co):$HOST_PORT'"}' \
+        https://hooks.slack.com/services/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
+
+
+targets:
+  #The deployment target command, it runs multiple commands one after another, ensuring the previous one returned 0
+  deploy:
+    - pre-build
+    - build
+    - pull
+    - stop-rm-run
+    - ps
+    - logs
+    - health
+    - slack-notify
