@@ -15,7 +15,10 @@ networks:
     hosts:
       - v_m_naydenova@35.243.173.143
 
-  local:
+  # Dev envir. for localhost only
+  dev:
+    env:
+      # Extra environment variable for dev hosts only
     hosts:
       - localhost
 
@@ -97,6 +100,13 @@ commands:
         -p $HOST_PORT:$CONTAINER_PORT \
         --restart=always \
         --name $NAME $REGISTRY\$IMAGE
+
+  local_start_shell:
+    desc: Run docker interactive
+    local: >
+      docker run -it $NAME
+
+
 
   restart:
     desc: Restart Docker container

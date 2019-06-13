@@ -18,10 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 thread = None
+dialogs = {}
 
-dialogs = {
-
-}
 # Convo states
 CHOOSING, TYPING_REPLY, TYPING_CHOICE, INVALID_HELLO = range(4)
 
@@ -51,8 +49,7 @@ def reply(r):
 
 def start(bot, update):
     dialog = get_dialog(update.message.chat_id, bot, update)
-    #r = "Hi, I'm Dora. I make spontaneous city explorations fun! \nI'll give you a bunch of random places to explore that you can like or dislike. You can also ask for the map and I'll place everything you liked in one place! Say something like  ""Hey, I wanna visit Bucharest in two days"" and we can start. \nHappy place hunting"
-    r = dialog['flow'].greet()
+    r = "Hi, I'm Flightbot. I'll help you fight the best flight!"
     update.message.reply_text(reply(r))
     return CHOOSING
 
@@ -171,11 +168,6 @@ def send_message(bot, chat_id, rep: Reply):
     elif rep.type == 'place_list':
         logging.info("Reply itinerary: %s", reply_text)
         bot.send_message(chat_id, reply_text, parse_mode=telegram.ParseMode.MARKDOWN)
-        for place in rep.data:
-            place_text = place['text']
-            place_loc = place['location']
-            # bot.send_location(chat_id, latitude=float(place_loc['lat']), longitude=float(place_loc['lng']))
-            # bot.send_message(chat_id, place_text, parse_mode=telegram.ParseMode.MARKDOWN)
     else:
         bot.send_message(chat_id, reply_text, parse_mode=telegram.ParseMode.MARKDOWN)
 

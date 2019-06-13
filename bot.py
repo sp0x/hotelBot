@@ -1,6 +1,6 @@
-
 from nlp import DialogFlow
 import json
+
 
 def get_dialogflow():
     script = {}
@@ -8,6 +8,7 @@ def get_dialogflow():
         script = json.load(f)
     d = DialogFlow(script)
     return d
+
 
 if __name__ == '__main__':
     script = {}
