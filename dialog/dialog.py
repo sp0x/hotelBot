@@ -72,7 +72,8 @@ class DialogFlow:
         self.last_affirmed_place = None
         self.last_interest = None
         self.probs = [1.0 / len(api.query_examples)] * len(api.query_examples)
-        self.nlp = DialogNlp(script['interests'])
+        self.interest_intents = script['interests']
+        self.nlp = DialogNlp(self.interest_intents)
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)
@@ -457,7 +458,7 @@ class DialogFlow:
                 replies.extend(self.next())
                 # elif len(replies)==0:
                 return self.is_done(), replies  # msg_replies(replies)
-        elif intent in place_intents:
+        elif intent in self.interest_intents:
             replies = self.set_intent(intent, ents)
 
         # Intent to update the form
@@ -604,3 +605,37 @@ def reply(r):
     else:
         if r == '': r = dunno
         return r
+
+
+def format_form_message(form, msg):
+    printable_form = form.copy()
+    for k in printable_form:
+        if k == "selected_items":
+            continue
+        item = printable_form[k]
+        f = item
+        # if isinstance(f, list): f = f[0]
+        if isinstance(f, DialogBox):
+            continue
+        logging.info("Form field: %s , %s", k, f)
+        printable_form[k] = f.capitalize()
+    return msg.format(**printable_form)
+
+
+def format_box_question(box, form):
+    """
+    Formats a box into a question
+    :param box:
+    :param form:
+    :return:
+    """
+    # question = box.question.format(**form)
+    question = format_form_message(form, box.question)
+    if box.is_yes_no() and box.has_data():
+        place_ = box.data['place']
+        output_reply = box_place_reply(box, question + " - " + place_.formatted_address)
+    elif box.has_entity('interest'):
+        output_reply = box_interest_reply(box, question)
+    else:
+        output_reply = msg_reply(question)
+    return output_reply

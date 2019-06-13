@@ -87,23 +87,6 @@ def train_intent():
     model_directory = trainer.persist('./model/')
 
 
-def format_box_question(box, form):
-    """
-    Formats a box into a question
-    :param box:
-    :param form:
-    :return:
-    """
-    # question = box.question.format(**form)
-    question = format_form_message(form, box.question)
-    if box.is_yes_no() and box.has_data():
-        place_ = box.data['place']
-        output_reply = box_place_reply(box, question + " - " + place_.formatted_address)
-    elif box.has_entity('interest'):
-        output_reply = box_interest_reply(box, question)
-    else:
-        output_reply = msg_reply(question)
-    return output_reply
 
 
 def create_places_link(places):
@@ -114,22 +97,6 @@ def create_places_link(places):
         lng = float(location['lng'])
         url_base += "/{0},{1}".format(lat, lng)
     return url_base
-
-
-def format_form_message(form, msg):
-    import dialog.dialog
-    printable_form = form.copy()
-    for k in printable_form:
-        if k == "selected_items":
-            continue
-        item = printable_form[k]
-        f = item
-        # if isinstance(f, list): f = f[0]
-        if isinstance(f, dialog.DialogBox):
-            continue
-        logging.info("Form field: %s , %s", k, f)
-        printable_form[k] = f.capitalize()
-    return msg.format(**printable_form)
 
 
 suggestion_attr = "selected_items"

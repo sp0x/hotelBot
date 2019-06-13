@@ -13,7 +13,7 @@
             "intent":["visit"]
         },
         {
-            "question":"Great, when are you visiting",
+            "question":"Great, when are you visiting?",
             "accepted":"",
             "rejected":"Sorry I didn't understand that date, can you try again with something like June 25?",
             "attribute":"date",
