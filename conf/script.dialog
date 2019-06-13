@@ -22,8 +22,8 @@
         {
             "question":"Okay, how many people are staying?",
             "accepted":"",
-            "rejected":"I didn't catch that. Can you use a different phrase?",
-            "entities":"countable"
+            "rejected":"I didn't catch that. Can you use a different phrase, maybe try numbers?",
+            "entities":"CARDINAL"
         },
         {
             "question":"What rooms do you prefer?",

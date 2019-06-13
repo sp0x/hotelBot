@@ -10,13 +10,16 @@ from viberbot.api.viber_requests import ViberSubscribedRequest
 from viberbot.api.viber_requests import ViberUnsubscribedRequest
 
 from flask import Flask, request, Response
+from iface import ChatIface
 import logging
 import time
 
 
-class Viber:
+class Viber(ChatIface):
 
     def __init__(self, web_url, web_config=('0.0.0.0', 8080)):
+        super().__init__()
+
         self.thread = None
         self.token = os.environ.get('VIBER_TOKEN')
         if self.token is None:
@@ -32,8 +35,6 @@ class Viber:
         self.web_url = web_url
         self.setup_routes()
 
-
-
     def run(self):
         web_config = self.web_config
         self.thread = threading.Thread(target=self.start)
@@ -45,12 +46,20 @@ class Viber:
         logging.info("Registered ev types: %s", evtypes)
         logging.info("Account info: %s", viber_account)
 
-
     def start(self):
         web_config = self.web_config
         self.app.run(host=web_config[0], port=web_config[1], debug=True, use_reloader=False)
 
+    #  Message handlers
+    #
 
+    def on_start(self, user_id):
+        viber = self.api
+        d = self.get_dialog(user_id)
+        g = d.start()
+        viber.send_messages(user_id, [
+            TextMessage(text=g)
+        ])
 
     def setup_routes(self):
         app = self.app
@@ -67,9 +76,7 @@ class Viber:
             viber_request = viber.parse_request(request.get_data())
 
             if isinstance(viber_request, ViberConversationStartedRequest):
-                viber.send_messages(viber_request.get_user().get_id(), [
-                    TextMessage(text="Welcome!")
-                ])
+                self.on_start(viber_request.get_user().get_id())
 
             elif isinstance(viber_request, ViberMessageRequest):
                 message = viber_request.message
@@ -78,7 +85,7 @@ class Viber:
                     message
                 ])
             elif isinstance(viber_request, ViberSubscribedRequest):
-                viber.send_messages(viber_request.get_user.id, [
+                viber.send_messages(viber_request.get_user().id, [
                     TextMessage(text="thanks for subscribing!")
                 ])
             elif isinstance(viber_request, ViberFailedRequest):

@@ -1,2 +1,2 @@
-from dialog.nlp import *
-from dialog.dialog import *
+from dialog.nlp import DialogNlp
+from dialog.dialog import DialogFlow, create_empty, load_dialog
