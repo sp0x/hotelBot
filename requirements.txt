@@ -3,3 +3,5 @@ spacy
 rasa_nlu
 sklearn_crfsuite
 python-google-places
+viberbot==1.0.11
+flask

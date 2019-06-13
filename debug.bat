@@ -1,0 +1,1 @@
+docker run -it -v /d/dev/python/flight_bot:/app  --env-file=.env --entrypoint=bash netlyt/flight_bot:latest

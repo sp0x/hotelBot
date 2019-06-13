@@ -4,14 +4,14 @@ import json
 
 def get_dialogflow():
     script = {}
-    with open('script.dialog', 'r') as f:
+    with open('conf/script.dialog', 'r') as f:
         script = json.load(f)
     d = DialogFlow(script)
     return d
 
 if __name__ == '__main__':
     script = {}
-    with open('script.dialog', 'r') as f:
+    with open('conf/script.dialog', 'r') as f:
         script = json.load(f)
     d = DialogFlow(script)
     r = d.greet()

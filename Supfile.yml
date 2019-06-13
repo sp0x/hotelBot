@@ -15,6 +15,10 @@ networks:
     hosts:
       - v_m_naydenova@35.243.173.143
 
+  local:
+    hosts:
+      - localhost
+
 commands:
   #These commands are just helpers, don't modify them
   ping:
@@ -41,6 +45,18 @@ commands:
 
     script: ./scripts/docker-build.sh
     once: true
+
+  local_build:
+    desc: Builkd docker image localy
+    local: docker build -t $IMAGE .
+
+  debug:
+    desc: Debug ..
+    run: docker run -it $IMAGE
+
+  train:
+    desc: Train model
+    run: docker run $IMAGE train
 
   pull:
     desc: Pull latest Docker image

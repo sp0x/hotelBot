@@ -22,3 +22,8 @@ After it's finished try opening the url for the app.
 ## Notes:
 On windows it's best to use Cygwin, Bash from Mingw64 or WSL, since sup needs bash.
 On other platforms you can use your default terminal.
+
+
+# Running the project locally
+Run `sup local local_build` to build.
+Run `sup local debug` to start a debug shell.

@@ -9,6 +9,7 @@ import random
 import logging
 import api
 import numpy as np
+import os
 
 logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -20,8 +21,8 @@ model_directory = "./model/default/model_20190508-130514"
 
 
 nlp = spacy.load('en_core_web_md')
-interpreter = Interpreter.load(model_directory)
-place_intents = ['restaurant', 'bar', 'coffee', 'museum']
+interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None
+place_intents = ['hotel']
 
 folloup_radius = 2000
 default_radius = 3600
@@ -44,8 +45,8 @@ def boxes_have_data(boxes):
 
 
 def train_intent():
-    train_data = load_data('rasa_dataset.json')
-    trainer = Trainer(config.load("config_spacy.yaml"))
+    train_data = load_data('conf/rasa_dataset.json')
+    trainer = Trainer(config.load("conf/config_spacy.yaml"))
     trainer.train(train_data)
     global model_directory
     model_directory = trainer.persist('./model/')
@@ -232,7 +233,7 @@ class DialogFlow:
             })
         query = api.PlaceQuery("", [], None)
         query.types = ['establishment']
-        recs = api.get_random_locations(location, query, initial_suggestion_count, probs=self.probs,max_radius)
+        recs = []
         logging.info("Found suggestions for search: %s", [x['title'] for x in recs])
         for i in range(len(recs)):
             params = {
