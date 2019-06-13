@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python __init__.py train
+python __init__.py --train

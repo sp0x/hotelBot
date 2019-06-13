@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190503-153134"
 model_directory_env = os.environ.get("MODEL_DIR")
 model_directory = model_directory_env if model_directory_env is not None\
-    else "./model/default/model_20190613-193524"
+    else "./model/default/model_20190613-204717"
 
 nlp = spacy.load('en_core_web_md')
 interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None

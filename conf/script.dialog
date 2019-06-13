@@ -29,7 +29,8 @@
             "question":"What rooms do you prefer?",
             "accepted":"",
             "rejected":"I didn't catch that. Can you use a different phrase?",
-            "entities":"countable"
+            "entities":"countable",
+            "intent": ["countable"]
         }
     ]
 }
