@@ -27,7 +27,7 @@
 	"lookup_tables": [
     {
         "name": "location",
-        "elements": "./cities.txt"
+        "elements": "./data/cities.txt"
     }
 	],
     "common_examples": [
@@ -87,6 +87,18 @@
         "text": "i'm looking for a place to eat",
         "intent": "restaurant",
         "entities": []
+      },
+      { "text": "I'm flying from London",
+        "intent": "fly_from",
+        "entities": [
+          {"start": 16, "end":  22, "value":  "london", "entity":  "location"}
+        ]
+      },
+      { "text": "departing from London",
+        "intent": "fly_from",
+        "entities": [
+          {"start": 15, "end":  21, "value":  "london", "entity":  "location"}
+        ]
       },
       {
         "text": "where can I eat in manchester",

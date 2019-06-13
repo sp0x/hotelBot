@@ -1,9 +1,7 @@
 #!/bin/env python
-from nlp import DialogFlow
-import json
-import chatbot
-from iface import run_bots, Viber
+from iface import run_bots
+from chatbots import get_bots
 
 if __name__ == '__main__':
-    bots = [Viber(web_config=('0.0.0.0', 8080))]
-    run_bots(bots)
+    b = get_bots()
+    run_bots(b)

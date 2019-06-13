@@ -1,21 +1,19 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler, \
-    CallbackQueryHandler
-from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
-import telegram
+# from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler, \
+#     CallbackQueryHandler
+# from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
+# import telegram
 import os
 import threading
-from bot import *
 import time
 import logging
 import traceback
-from nlp import Reply, parse_intent
 from typing import List
+from iface import Viber
+import dialog
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
 
 thread = None
 dialogs = {}
@@ -24,35 +22,12 @@ dialogs = {}
 CHOOSING, TYPING_REPLY, TYPING_CHOICE, INVALID_HELLO = range(4)
 
 reply_keyboard = []
-markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+markup = None  # ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
 
-def reply(r):
-    """
-    Formats a reply into a string
-    :param r:
-    :return:
-    """
-    dunno = 'I dont know how to answer that'
-    # print("Reply type: ", type(r))
-    if isinstance(r, dict):
-        if r['type'] == 'text':
-            replies = r['replies']
-            return '. '.join(replies)
-    elif isinstance(r, list) and not isinstance(r, str):
-        if len(r) == 0: r = [dunno]
-        return '. '.join(r)
-    else:
-        if r == '': r = dunno
-        return r
-
-
-def start(bot, update):
-    dialog = get_dialog(update.message.chat_id, bot, update)
-    r = "Hi, I'm Flightbot. I'll help you fight the best flight!"
-    update.message.reply_text(reply(r))
-    return CHOOSING
-
+def get_bots():
+    bots = [Viber(os.environ.get("VIBER_HOSTNAME"), web_config=('0.0.0.0', 5000))]
+    return bots
 
 def handle_start_greet(bot, update):
     dialog = get_dialog(update.message.chat_id, bot, update)
@@ -260,12 +235,11 @@ def get_dialog(id, bot, update):
 
 
 def empty_dialog(bot, update):
-    dialogflow = get_dialogflow()
     return {
         'update': update,
         'bot': bot,
         'state': {},
-        'flow': dialogflow
+        'flow': dialog.create_empty()
     }
 
 

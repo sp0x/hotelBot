@@ -25,5 +25,7 @@ On other platforms you can use your default terminal.
 
 
 # Running the project locally
-Run `sup local local_build` to build.
-Run `sup local debug` to start a debug shell.
+Beware that any source code changes need a new build!
+To build the bot run `sup local local_build` to build.    
+To train the bot run `sup local train`  
+Run `sup local debug` to start a debug shell.  

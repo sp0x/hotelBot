@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd /tmp/$IMAGE
+cd $PROJDIR$IMAGE
 
 sudo docker build -t $NAME .
 sudo docker tag $NAME $REGISTRY/$IMAGE
