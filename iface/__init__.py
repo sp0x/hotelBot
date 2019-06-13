@@ -33,3 +33,8 @@ class ChatIface:
             # self.dialogs[session_id]['flow'].on_search_resolved(
             #     lambda: send_searching_update(id, dialogs[id]['bot'], dialogs[id]['update']))
         return self.dialogs[session_id]['flow']
+
+    def process_message(self, uid, msg):
+        d = self.get_dialog(uid)
+        done, replies = d.process_message(msg)
+        return done, replies

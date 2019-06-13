@@ -12,8 +12,7 @@ if __name__ == '__main__':
     logging.info("Greet: %s", r)
     while not done:
         m = input("\nYou: ")
-        d = c.get_dialog(uid)
-        done, replies = d.process_message(m)
+        done, replies = c.process_message(uid, m)
         for r in replies:
             logging.info("\nReply: %s", r)
     logging.info("Done")

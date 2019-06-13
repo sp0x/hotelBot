@@ -53,12 +53,19 @@ class Viber(ChatIface):
     #  Message handlers
     #
 
-    def on_start(self, user_id):
+    def _on_start(self, user_id):
         viber = self.api
         d = self.get_dialog(user_id)
         g = d.start()
         viber.send_messages(user_id, [
             TextMessage(text=g)
+        ])
+
+    def _on_message(self, user_id, message):
+        viber = self.api
+        is_done, r = self.process_message(user_id, message)
+        viber.send_messages(user_id, [
+            r
         ])
 
     def setup_routes(self):
@@ -76,14 +83,11 @@ class Viber(ChatIface):
             viber_request = viber.parse_request(request.get_data())
 
             if isinstance(viber_request, ViberConversationStartedRequest):
-                self.on_start(viber_request.get_user().get_id())
+                self._on_start(viber_request.get_user().get_id())
 
             elif isinstance(viber_request, ViberMessageRequest):
                 message = viber_request.message
-                # lets echo back
-                viber.send_messages(viber_request.sender.id, [
-                    message
-                ])
+                self._on_message(viber_request.get_user().get_id(), message)
             elif isinstance(viber_request, ViberSubscribedRequest):
                 viber.send_messages(viber_request.get_user().id, [
                     TextMessage(text="thanks for subscribing!")

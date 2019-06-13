@@ -21,3 +21,5 @@ class Cli(ChatIface):
         r = dialog.start()
         logging.info('Text: %s', r)
 
+
+
