@@ -13,7 +13,9 @@ logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d}
 logger = logging.getLogger(__name__)
 
 model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190503-153134"
-model_directory = "./model/default/model_20190613-175915"
+model_directory_env = os.environ.get("MODEL_DIR")
+model_directory = model_directory_env if model_directory_env is not None\
+    else "./model/default/model_20190613-193524"
 
 nlp = spacy.load('en_core_web_md')
 interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None
@@ -78,8 +80,8 @@ def boxes_have_data(boxes):
 
 
 def train_intent():
-    train_data = load_data('conf/rasa_dataset.json')
-    trainer = Trainer(config.load("conf/config_spacy.yaml"))
+    train_data = load_data('./conf/rasa_dataset.json')
+    trainer = Trainer(config.load("./conf/config_spacy.yaml"))
     trainer.train(train_data)
     global model_directory
     model_directory = trainer.persist('./model/')
@@ -115,6 +117,7 @@ def create_places_link(places):
 
 
 def format_form_message(form, msg):
+    import dialog.dialog
     printable_form = form.copy()
     for k in printable_form:
         if k == "selected_items":
@@ -122,7 +125,7 @@ def format_form_message(form, msg):
         item = printable_form[k]
         f = item
         # if isinstance(f, list): f = f[0]
-        if isinstance(f, DialogBox):
+        if isinstance(f, dialog.DialogBox):
             continue
         logging.info("Form field: %s , %s", k, f)
         printable_form[k] = f.capitalize()

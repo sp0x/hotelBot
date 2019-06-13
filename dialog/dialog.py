@@ -72,7 +72,7 @@ class DialogFlow:
         self.last_affirmed_place = None
         self.last_interest = None
         self.probs = [1.0 / len(api.query_examples)] * len(api.query_examples)
-        self.nlp = DialogNlp()
+        self.nlp = DialogNlp(script['interests'])
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)

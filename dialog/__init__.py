@@ -1,2 +1,2 @@
-from dialog.dialog import *
 from dialog.nlp import *
+from dialog.dialog import *

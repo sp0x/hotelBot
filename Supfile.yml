@@ -65,7 +65,7 @@ commands:
 
   train:
     desc: Train model
-    local: docker run --env-file=.env $NAME ./nlp.py
+    local: docker run --env-file=.env $NAME __init__.py --train
 
   pull:
     desc: Pull latest Docker image

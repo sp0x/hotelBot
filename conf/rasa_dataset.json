@@ -1015,8 +1015,38 @@
            "end":8,
            "value":"Tomorrow",
            "entity":"DATE"
-         }]
-     },
+       }]
+      },
+      {
+        "text": "double",
+        "intent": "countable",
+        "entites": [{
+          "start":0,
+           "end": 6,
+           "value": 2,
+           "entity":"countable"
+        }]
+      },
+      {
+        "text": "single",
+        "intent": "countable",
+        "entites": [{
+          "start":0,
+           "end": 6,
+           "value": 1,
+           "entity":"countable"
+        }]
+      },
+      {
+        "text": "triple",
+        "intent": "countable",
+        "entites": [{
+          "start":0,
+           "end": 6,
+           "value": 3,
+           "entity":"countable"
+        }]
+      },
       {
       "text": "I wanna see venice in february show me all museums",
       "intent": "visit",

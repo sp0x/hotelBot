@@ -2,9 +2,10 @@
     "opener":["Hi there", "Hi", "Hey", "Hello"],
     "closer":[],
     "greeting": "Hi, I'm the Netlyt Travel bot. I'll help you book a hotel at desired location. Just say \"Hey, I wan't to book a hotel\" and I'll guide you. Or you can say \"Hey, I'll be in Vienna for 3 days starting 28th of June. I need place for 3 adults\" and I'll give you some suggestions.",
+    "interests": ["hotel"],
     "conversation":[
         {
-            "question":"Which city do you want to grab a flight from?",
+            "question":"Hi, which city do you plan to visit?",
             "accepted":"",
             "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
             "attribute":"city",
@@ -12,33 +13,23 @@
             "intent":["visit"]
         },
         {
-            "question":"To which city will you be flying?",
+            "question":"Great, when are you visiting",
             "accepted":"",
-            "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
-            "attribute":"city",
-            "entities":["GPE","location", "ORG"],
-            "intent":["visit"]
-        },
-        {
-            "question":"When do you want to leave {city}?",
-            "accepted":"",
-            "rejected":"I didn't catch that. Can you use a different phrase?",
+            "rejected":"Sorry I didn't understand that date, can you try again with something like June 25?",
             "attribute":"date",
             "entities":"DATE"
         },
         {
-            "question":"When will you be flying back {city}?",
+            "question":"Okay, how many people are staying?",
             "accepted":"",
             "rejected":"I didn't catch that. Can you use a different phrase?",
-            "attribute":"date",
-            "entities":"DATE"
+            "entities":"countable"
         },
         {
-            "question":"Will you be traveling with someone else? To help you out I need a count of the passengers.",
+            "question":"What rooms do you prefer?",
             "accepted":"",
             "rejected":"I didn't catch that. Can you use a different phrase?",
-            "attribute":"date",
-            "entities":"DATE"
+            "entities":"countable"
         }
     ]
 }
