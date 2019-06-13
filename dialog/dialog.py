@@ -74,6 +74,7 @@ class DialogFlow:
         self.probs = [1.0 / len(api.query_examples)] * len(api.query_examples)
         self.interest_intents = script['interests']
         self.nlp = DialogNlp(self.interest_intents)
+        self.initialized_suggestions = False
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)
@@ -136,6 +137,7 @@ class DialogFlow:
         query.types = ['establishment']
         recs = []
         logging.info("Found suggestions for search: %s", [x['title'] for x in recs])
+        self.initialized_suggestions = True
         for i in range(len(recs)):
             params = {
                 'intent': ['confirm', 'reject'],
@@ -284,11 +286,16 @@ class DialogFlow:
                     return [itinerary_reply]
                 else:
                     return self.next()  # [format_box_question(self.box, self.form)]  # [itinerary_reply]
-            else:
+            elif not self.initialized_suggestions:
                 # type = self.form['interests']
                 logging.info("Fetching first suggestions.")
                 self.initialize_suggestions()
                 return self.next()
+            else:
+                itinerary_reply = self.create_itinerary()
+                itinerary_reply.prepend("I have all the information I need. Here's your itinerary ")
+                self.reset()
+                return [itinerary_reply]
         else:
             # Go to next unfinished box
             for i in range(len(self.boxes)):
@@ -639,3 +646,12 @@ def format_box_question(box, form):
     else:
         output_reply = msg_reply(question)
     return output_reply
+
+def create_places_link(places):
+    url_base = "https://www.google.com/maps/dir"
+    for p in places:
+        location = p.geo_location
+        lat = float(location['lat'])
+        lng = float(location['lng'])
+        url_base += "/{0},{1}".format(lat, lng)
+    return url_base

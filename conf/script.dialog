@@ -1,7 +1,7 @@
 {
     "opener":["Hi there", "Hi", "Hey", "Hello"],
     "closer":[],
-    "greeting": "Hi, I'm the Netlyt Travel bot. I'll help you book a hotel at desired location. Just say \"Hey, I wan't to book a hotel\" and I'll guide you. Or you can say \"Hey, I'll be in Vienna for 3 days starting 28th of June. I need place for 3 adults\" and I'll give you some suggestions.",
+    "greeting": "Hi, I'm the Netlyt Travel bot. I'll help you book a hotel at a desired location. Just say \"Hey, I wan't to book a hotel\" and I'll guide you. Or you can say \"Hey, I'll be in Vienna for 3 days starting 28-th of June. I need place for 3 adults and single rooms\" and I'll give you some suggestions.",
     "interests": ["hotel"],
     "conversation":[
         {
@@ -28,7 +28,7 @@
         {
             "question":"What rooms do you prefer?",
             "accepted":"",
-            "rejected":"I didn't catch that. Can you use a different phrase?",
+            "rejected":"I didn't catch that. Can you use a different phrase, maybe Double rooms?",
             "entities":"countable",
             "intent": ["countable"]
         }

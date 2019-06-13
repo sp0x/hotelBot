@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190503-153134"
 model_directory_env = os.environ.get("MODEL_DIR")
 model_directory = model_directory_env if model_directory_env is not None\
-    else "./model/default/model_20190613-204717"
+    else "./model/default/model_20190613-205444"
 
 nlp = spacy.load('en_core_web_md')
 interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None
@@ -85,18 +85,6 @@ def train_intent():
     trainer.train(train_data)
     global model_directory
     model_directory = trainer.persist('./model/')
-
-
-
-
-def create_places_link(places):
-    url_base = "https://www.google.com/maps/dir"
-    for p in places:
-        location = p.geo_location
-        lat = float(location['lat'])
-        lng = float(location['lng'])
-        url_base += "/{0},{1}".format(lat, lng)
-    return url_base
 
 
 suggestion_attr = "selected_items"

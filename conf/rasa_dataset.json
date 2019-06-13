@@ -28,6 +28,9 @@
     {
         "name": "location",
         "elements": "./data/cities.txt"
+    }, {
+        "name": "countable",
+        "elements": "./data/countables.txt"
     }
 	],
     "common_examples": [
@@ -87,6 +90,24 @@
         "text": "i'm looking for a place to eat",
         "intent": "restaurant",
         "entities": []
+      },
+      {
+        "text":   "Double rooms",        "intent":  "countable",
+        "entities": [
+          {"start": 0, "end":  6, "value":  "double", "entity": "countable"}
+        ]
+      },
+      {
+        "text":   "Single rooms",        "intent":  "countable",
+        "entities": [
+          {"start": 0, "end":  6, "value":  "single", "entity": "countable"}
+        ]
+      },
+      {
+        "text":   "Triple rooms",        "intent":  "countable",
+        "entities": [
+          {"start": 0, "end":  6, "value":  "triple", "entity": "countable"}
+        ]
       },
       { "text": "I'm flying from London",
         "intent": "fly_from",
