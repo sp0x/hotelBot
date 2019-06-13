@@ -15,6 +15,13 @@ networks:
     hosts:
       - v_m_naydenova@35.243.173.143
 
+  # Dev envir. for localhost only
+  dev:
+    env:
+      # Extra environment variable for dev hosts only
+    hosts:
+      - localhost
+
 commands:
   #These commands are just helpers, don't modify them
   ping:
@@ -41,6 +48,10 @@ commands:
 
     script: ./scripts/docker-build.sh
     once: true
+
+  local_build:
+    desc: Build Docker image locally from the current directory
+    local: docker build -t $NAME .
 
   pull:
     desc: Pull latest Docker image
@@ -82,6 +93,13 @@ commands:
         --restart=always \
         --name $NAME $REGISTRY\$IMAGE
 
+  local_start_shell:
+    desc: Run docker interactive
+    local: >
+      docker run -it $NAME
+
+
+
   restart:
     desc: Restart Docker container
     run: sudo docker restart $IMAGE || exit 0
@@ -122,6 +140,9 @@ commands:
 
 
 targets:
+  debug:
+    - local_build
+    - local_start_shell
   #The deployment target command, it runs multiple commands one after another, ensuring the previous one returned 0
   deploy:
     - pre-build
