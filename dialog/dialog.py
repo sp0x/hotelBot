@@ -219,7 +219,11 @@ class DialogFlow:
         if isinstance(date, list): date = date[0]
         if isinstance(date, list): date = date[0]
 
-        selected_boxes = self.form['selected_items'] if 'selected_items' in self.form else []
+        selected_boxes = self.form[self.suggestion_box_attr] if self.suggestion_box_attr in self.form else []
+        if len(selected_boxes)==0:
+            bad_list_rep = Reply(None, 'text', "You didn't pick anything. We can start over if you want.")
+            return bad_list_rep
+
         locations = []
         url = create_places_link([box.data['place'] for box in selected_boxes])
 
@@ -232,9 +236,9 @@ class DialogFlow:
             })
 
         if date.lower() == 'tomorrow':
-            text = 'Your trip to {0} Tomorrow will include the following places: '.format(city)
+            text = 'Your trip to {0} Tomorrow will include the following place: '.format(city)
         else:
-            text = 'Your trip to {0} on {1} will include the following places: '.format(city, date)
+            text = 'Your trip to {0} on {1} will include the following place: '.format(city, date)
         text += " [Map](" + url + ")"
         rep = Reply(None, 'place_list', text)
         rep.data = locations
