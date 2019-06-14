@@ -5,7 +5,7 @@
     "interests": ["hotel"],
     "conversation":[
         {
-            "question":"Hi, which city do you plan to visit?",
+            "question":"Which city do you plan to visit?",
             "accepted":"",
             "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
             "attribute":"city",
