@@ -139,16 +139,20 @@ class Viber(ChatIface):
 
             # this library supplies a simple way to receive a request object
             viber_request = viber.parse_request(request.get_data())
-            sender_id = viber_request.sender.id
+
 
             if isinstance(viber_request, ViberConversationStartedRequest):
-                self._on_start(sender_id)
+                user_id = viber_request.get_user().get_id()
+                self._on_start(user_id)
 
             elif isinstance(viber_request, ViberMessageRequest):
+                sender_id = viber_request.sender.id
                 message = viber_request.message
                 self._on_message(sender_id, message)
+
             elif isinstance(viber_request, ViberSubscribedRequest):
-                viber.send_messages(sender_id, [
+                user_id = viber_request.get_user().get_id()
+                viber.send_messages(user_id, [
                     TextMessage(text="thanks for subscribing!")
                 ])
             elif isinstance(viber_request, ViberFailedRequest):

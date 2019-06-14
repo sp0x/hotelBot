@@ -117,16 +117,16 @@ commands:
 
   restart:
     desc: Restart Docker container
-    run: sudo docker restart $IMAGE || exit 0
+    run: sudo docker restart $NAME || exit 0
 
   stop-rm-run:
     desc: Rolling update (stop & remove old Docker container, run new one)
+    chdir: $PROJDIR$IMAGE
     run: >
       sudo docker stop $NAME || :; \
         sudo docker rm $NAME || :; \
         sudo docker run --env-file=.env -d \
           -p $HOST_PORT:$CONTAINER_PORT \
-          -v $PROJDIR$NAME/example.$SUP_NETWORK.cfg:/etc/example.cfg \
           --restart=always \
           --name $NAME $NAME
     serial: 1

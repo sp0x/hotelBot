@@ -9,6 +9,8 @@ RUN python -m spacy download en_core_web_sm
 RUN python -m spacy download en_core_web_md
 RUN python -m spacy link en_core_web_md en
 ADD entrypoint.sh /entrypoint.sh
+ADD interact.sh ./interact.sh
+ADD train.sh ./train.sh
 RUN chmod +x /entrypoint.sh; \
     chmod +x ./interact.sh
 
