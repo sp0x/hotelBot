@@ -20,7 +20,7 @@ default_radius = 3600
 max_radius = 5000
 
 
-def __fetch_photo(p):
+def __fetch_photo(p: Photo):
     if p is not None:
         p.get(maxheight=300, maxwidth=300)
     photo_data = p.data if p else None
@@ -100,12 +100,14 @@ def get_recommendation_for_location(location, query, count=1, radius=3200, exclu
     return output
 
 
-def _get_photo_url(photo: Photo):
+def _get_photo_url(photo: Photo, max_width, max_height):
 
     service_url = GooglePlaces.PHOTO_API_URL
     params = {'photoreference': photo.photo_reference,
               'sensor': str("").lower(),
-              'key': googl_places_token}
+              'key': googl_places_token,
+              'maxwidth': max_width,
+              'maxheight': max_height}
     encoded_data = {}
     for k, v in params.items():
         if isinstance(v, six.string_types):
@@ -129,7 +131,7 @@ def format_places(places, exclusions):
         photos = place.photos[:nphotos]
         imgs = []
         for p in photos:
-            photo_url = _get_photo_url(p)
+            photo_url = _get_photo_url(p, 600, 600)
             imgs.append({
                 'fetcher': __fetch_photo,
                 'obj': p,

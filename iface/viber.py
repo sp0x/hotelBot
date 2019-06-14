@@ -121,18 +121,7 @@ class Viber(ChatIface):
             elif rep.type == 'place_list':
                 logging.info("Reply itinerary: %s", reply_text)
                 viber.send_messages(user_id, [reply_text])
-                # for place in rep.data:
-                #     place_text = place['text']
-                #     place_loc = place['location']
-                #     # bot.send_location(chat_id, latitude=float(place_loc['lat']), longitude=float(place_loc['lng']))
-                #     # update.message.reply_text(place_text, parse_mode=telegram.ParseMode.MARKDOWN)
             elif rep.type == 'interest_question':
-                # update.message.reply_text(reply_text, parse_mode=telegram.ParseMode.MARKDOWN)
-                interests = rep.data
-                # custom_keyboard = [[x.capitalize()] for x in interests]
-                # reply_markup = ReplyKeyboardMarkup(custom_keyboard, one_time_keyboard=True)
-                # reply_markup = None
-                # bot.send_message(chat_id=chat_id, text=reply_text, reply_markup=reply_markup)
                 viber.send_message(user_id, reply_text)
             else:
                 viber.send_message(user_id, reply_text)

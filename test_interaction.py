@@ -13,6 +13,5 @@ if __name__ == '__main__':
     while not done:
         m = input("\nYou: ")
         done, replies = c.process_message(uid, m)
-        for r in replies:
-            logging.info("\nReply[%s]: %s", type(r), r)
+        c.send_message(uid, replies)
     logging.info("Done")
