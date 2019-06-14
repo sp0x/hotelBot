@@ -46,9 +46,9 @@ class Cli(ChatIface):
                 logging.info("MSG: %s", reply_text)
                 logging.info("KB: Confirm, Reject, End")
             elif rep.type == 'place_list':
-                pass
+                logging.info("MSG_ITINERARY: %s", reply_text)
             elif rep.type == 'interest_question':
-                pass
+                logging.info("MSG_INTENT_Q: %s", reply_text)
             else:
                 logging.info("MSG: %s", reply_text)
 
