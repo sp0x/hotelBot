@@ -1,14 +1,20 @@
-from googleplaces import GooglePlaces, types, lang, Place
+from googleplaces import GooglePlaces, types, lang, Place, Photo
 import os
 import random
 import logging
 import numpy as np
+try:
+    import six
+    from six.moves import urllib
+except ImportError:
+    pass
 
 logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-google_places = GooglePlaces(os.environ.get('GOOGLE_TOKEN'))
+googl_places_token = os.environ.get('GOOGLE_TOKEN')
+google_places = GooglePlaces(googl_places_token)
 folloup_radius = 2000
 default_radius = 3600
 max_radius = 5000
@@ -94,6 +100,22 @@ def get_recommendation_for_location(location, query, count=1, radius=3200, exclu
     return output
 
 
+def _get_photo_url(photo: Photo):
+
+    service_url = GooglePlaces.PHOTO_API_URL
+    params = {'photoreference': photo.photo_reference,
+              'sensor': str("").lower(),
+              'key': googl_places_token}
+    encoded_data = {}
+    for k, v in params.items():
+        if isinstance(v, six.string_types):
+            v = v.encode('utf-8')
+        encoded_data[k] = v
+    encoded_data = urllib.parse.urlencode(encoded_data)
+    query_url = (service_url if service_url.endswith('?') else '%s?' % service_url)
+    request_url = query_url + encoded_data
+    return request_url
+
 def format_places(places, exclusions):
     output = []
     for place in places:
@@ -107,9 +129,11 @@ def format_places(places, exclusions):
         photos = place.photos[:nphotos]
         imgs = []
         for p in photos:
+            photo_url = _get_photo_url(p)
             imgs.append({
                 'fetcher': __fetch_photo,
-                'obj': p
+                'obj': p,
+                'url': photo_url
             })
         output.append({
             'title': place.name,
