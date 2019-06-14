@@ -57,6 +57,7 @@ class Viber(ChatIface):
         viber = self.api
         d = self.get_dialog(user_id)
         g = d.start()
+        d.on_searching(lambda details: self._callback_on_searching(user_id, details))
         viber.send_messages(user_id, [
             TextMessage(text=g)
         ])
@@ -67,6 +68,20 @@ class Viber(ChatIface):
         viber.send_messages(user_id, [
             r
         ])
+
+    def _callback_on_searching(self, user_id, details):
+        viber = self.api
+        logging.info("Starting search at %s", details)
+        place = details['location'].capitalize()
+        t = details['type']
+        if len(t) == 0:
+            viber.send_messages(user_id, [
+                "Great. Here are a few places for you to stay in {0}..".format(place)
+            ])
+        else:
+            viber.send_messages(user_id, [
+                 "Great. I'll start searching for {0} in {1}..".format('placest to stay', place)
+            ])
 
     def setup_routes(self):
         app = self.app

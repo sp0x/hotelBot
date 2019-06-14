@@ -176,10 +176,10 @@ class DialogFlow:
         if self.last_affirmed_place is not None:
             location = self.last_affirmed_place
         count = 1
-        radius = default_radius
+        radius = api.default_radius
         if is_folloup_suggestion:
             count = 3
-            radius = folloup_radius
+            radius = api.folloup_radius
         if custom_radius is not None:
             radius = custom_radius
         if cnt is not None:
