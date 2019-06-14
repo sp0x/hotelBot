@@ -3,6 +3,11 @@ from copy import deepcopy
 import random
 import numpy as np
 import logging
+
+logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                    datefmt='%Y-%m-%d:%H:%M:%S',
+                    level=logging.DEBUG)
+
 from dialog.nlp import DialogNlp
 
 import api
@@ -75,6 +80,9 @@ class DialogFlow:
         self.interest_intents = script['interests']
         self.nlp = DialogNlp(self.interest_intents)
         self.initialized_suggestions = False
+        self.suggestion_box_attr = "selected_items"
+        self.autoreset_on_done = True
+        self.initial_suggestion_count = 8
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)
@@ -84,6 +92,7 @@ class DialogFlow:
         self.box = self.boxes[0]
         self.last_affirmed_place = None
         self.last_interest = None
+        logging.info("Reset dialog.")
 
     # ______________________________________ Callback setters __________________________________
 
@@ -126,8 +135,11 @@ class DialogFlow:
         r = reply(self.script['greeting'])
         return r
 
-    def initialize_suggestions(self):
+    def fetch_initial_city_suggestions(self):
         location = self.form['city']
+        if location is None or len(location)==0:
+            raise Exception('City form field is needed.')
+
         if self.callback_on_searching is not None:
             self.callback_on_searching({
                 'location': api.location_name(location),
@@ -135,13 +147,14 @@ class DialogFlow:
             })
         query = api.PlaceQuery("", [], None)
         query.types = ['establishment']
-        recs = []
+        recs = api.get_random_locations(location, query, self.initial_suggestion_count, probs=self.probs,
+                                        radius=api.max_radius)
         logging.info("Found suggestions for search: %s", [x['title'] for x in recs])
         self.initialized_suggestions = True
         for i in range(len(recs)):
             params = {
                 'intent': ['confirm', 'reject'],
-                'attribute': suggestion_attr,
+                'attribute': self.suggestion_box_attr,
                 'question': recs[i]['title'],
                 'data': recs[i]
             }
@@ -182,7 +195,7 @@ class DialogFlow:
             })
         if query.is_random:
             query.types = ['establishment']
-            recs = api.get_random_locations(location, query, initial_suggestion_count, self.probs, max_radius)
+            recs = api.get_random_locations(location, query, self.initial_suggestion_count, self.probs, api.max_radius)
         else:
             recs = api.get_recommendation_for_location(location, query, count, radius, exclusions)
 
@@ -190,7 +203,7 @@ class DialogFlow:
         for i in range(len(recs)):
             params = {
                 'intent': ['confirm', 'reject'],
-                'attribute': suggestion_attr,
+                'attribute': self.suggestion_box_attr,
                 'question': recs[i]['title'],
                 'data': recs[i]
             }
@@ -235,17 +248,21 @@ class DialogFlow:
         Gets the suggestion boxes
         :return:
         """
-        items = filter(lambda x: x.attribute == 'selected_items', self.boxes)
+        items = filter(lambda x: x.attribute == self.suggestion_box_attr, self.boxes)
         return list(items)
 
     def has_suggestions(self):
-        items = filter(lambda x: x.attribute == 'selected_items', self.boxes)
+        items = filter(lambda x: x.attribute == self.suggestion_box_attr, self.boxes)
         return len(list(items)) > 0
 
     def has_finished_all_suggestions(self):
+        """
+        Has suggestions and they're all finished
+        :return:
+        """
         has_suggestion = False
         for x in self.boxes:
-            if x.attribute != 'selected_items': continue
+            if x.attribute != self.suggestion_box_attr: continue
             has_suggestion = True
             if not x.finished:
                 return False
@@ -274,7 +291,7 @@ class DialogFlow:
                 next_random_query = api.PlaceQuery("", [], None)
                 next_random_query.is_random = True
                 next_random_suggestions = self.add_suggestions(True, exclusions, next_random_query,
-                                                               custom_radius=max_radius, cnt=3)
+                                                               custom_radius=api.max_radius, cnt=3)
                 total_new_suggestions = len(next_similar_suggestions) + len(next_random_suggestions)
 
                 if total_new_suggestions == 0:
@@ -282,19 +299,20 @@ class DialogFlow:
                     # logging.info(self.boxes)
                     itinerary_reply = self.create_itinerary()
                     itinerary_reply.prepend("I have all the information I need. Here's your itinerary ")
-                    self.reset()
+                    # self.reset()
                     return [itinerary_reply]
                 else:
                     return self.next()  # [format_box_question(self.box, self.form)]  # [itinerary_reply]
             elif not self.initialized_suggestions:
                 # type = self.form['interests']
                 logging.info("Fetching first suggestions.")
-                self.initialize_suggestions()
+                self.fetch_initial_city_suggestions()
                 return self.next()
             else:
                 itinerary_reply = self.create_itinerary()
                 itinerary_reply.prepend("I have all the information I need. Here's your itinerary ")
-                self.reset()
+                # self.reset()
+                # logging.info("Creating itinerary")
                 return [itinerary_reply]
         else:
             # Go to next unfinished box
@@ -310,7 +328,8 @@ class DialogFlow:
 
     def match_all_intents(self, intent, ents):
         """
-        GO over unfinished boxes and try to validate them, stuffing replies from each one
+        Go over unfinished boxes and try to validate them, stuffing replies from each one.
+        This is skipped if the dialog is done.
         :param intent:
         :param ents:
         :return:
@@ -318,6 +337,9 @@ class DialogFlow:
         boxes = list(filter(lambda x: not x.finished and x.attribute != 'selected_item', self.boxes))
         reply = []
         matched_boxes = []
+        if self.is_done():
+            return reply, matched_boxes
+
         logging.info("Boxes left: ")
         for b in boxes: logging.info(b)
 
@@ -328,7 +350,7 @@ class DialogFlow:
                 self.set_form_matches(b, matches)
                 logging.info("Set attribute: %s to %s", b.attribute, matches)
                 b.finished = True
-                # logging.info("Finished box: %s", b)
+                logging.info("Finished box: %s", b)
                 reply = self.next()
                 # logging.info("Finished box: %s\nWith reply: %s", b, reply)
                 matched_boxes.append(b)
@@ -350,7 +372,7 @@ class DialogFlow:
             return api.PlaceQuery(self.last_interest, [], None)
         else:
             # Get the best matching query based on the current suggestions
-            suggestions = filter(lambda x: x.attribute == suggestion_attr and x.finished, self.boxes)
+            suggestions = filter(lambda x: x.attribute == self.suggestion_box_attr and x.finished, self.boxes)
             types = {}
             for s in [x for x in suggestions]:
                 place = s.data['place']
@@ -454,7 +476,7 @@ class DialogFlow:
             elif self.terminating and intent == "reject":
                 self.terminating = False
                 return False, self.terminate()  # [format_box_question(self.box, self.form)]
-            elif box.attribute == 'selected_items':
+            elif box.attribute == self.suggestion_box_attr:
                 if intent == 'affirm':
                     items = self.form.get('selected_items', [])
                     items.append(box)
@@ -483,6 +505,8 @@ class DialogFlow:
             next_replies = self.next()
             replies.extend(next_replies)
             current_matched_boxes.append(box)
+            logging.info("Current box validated. Dialog is done: %s", self.is_done())
+
         # 3. check if intent matches other boxes
         rep, itents_matched_boxes = self.match_all_intents(intent, ents)
         logging.info("Matched all intents: %s", rep)
@@ -509,19 +533,11 @@ class DialogFlow:
         if not initial_has_suggestions and self.has_suggestions() and self.callback_on_search_done is not None:
             self.callback_on_search_done()
         logging.info("Form: %s", self.form)
-        # logging.info("Replies: %s", replies)
-        return self.is_done(), replies
-        # Handle place intents, they have a different reply type
-        # if intent not in ['change_form', 'greet', 'reject', 'affirm'] and has_data_reply:
-        #     # We got a place request
-        #     # print("Reply: " , reply)
-        #     msg_type = 'place'
-        #     replies = self.place_repies(replies, self.box)
-        #
-        # return self.is_done(), {
-        #     'type': msg_type,
-        #     'replies': replies
-        # }
+
+        is_done = self.is_done()
+        if is_done and self.autoreset_on_done:
+            self.reset()
+        return is_done, replies
 
     def process_message(self, message):
         """
@@ -646,6 +662,7 @@ def format_box_question(box, form):
     else:
         output_reply = msg_reply(question)
     return output_reply
+
 
 def create_places_link(places):
     url_base = "https://www.google.com/maps/dir"

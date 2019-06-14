@@ -20,6 +20,6 @@ class Cli(ChatIface):
         dialog = self.get_dialog(user_id)
         r = dialog.start()
         logging.info('Text: %s', r)
-
+        return r
 
 

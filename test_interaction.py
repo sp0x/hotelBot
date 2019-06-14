@@ -9,10 +9,10 @@ if __name__ == '__main__':
     c.run()
     r = c.on_start(uid)
     done = c.is_done(uid)
-    logging.info("Greet: %s", r)
+    logging.info("Greet[%s]: %s", type(r), r)
     while not done:
         m = input("\nYou: ")
         done, replies = c.process_message(uid, m)
         for r in replies:
-            logging.info("\nReply: %s", r)
+            logging.info("\nReply[%s]: %s", type(r), r)
     logging.info("Done")

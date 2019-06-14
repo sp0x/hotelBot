@@ -8,7 +8,9 @@ logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d}
 logger = logging.getLogger(__name__)
 
 google_places = GooglePlaces(os.environ.get('GOOGLE_TOKEN'))
-
+folloup_radius = 2000
+default_radius = 3600
+max_radius = 5000
 
 def __fetch_photo(p):
     if p is not None:

@@ -13,7 +13,7 @@
             "intent":["visit"]
         },
         {
-            "question":"Great, when are you visiting?",
+            "question":"Great, when are you visiting {city}?",
             "accepted":"",
             "rejected":"Sorry I didn't understand that date, can you try again with something like June 25?",
             "attribute":"date",
@@ -23,12 +23,14 @@
             "question":"Okay, how many people are staying?",
             "accepted":"",
             "rejected":"I didn't catch that. Can you use a different phrase, maybe try numbers?",
-            "entities":"CARDINAL"
+            "entities":"CARDINAL",
+            "attribute": "guest_count"
         },
         {
             "question":"What rooms do you prefer?",
             "accepted":"",
             "rejected":"I didn't catch that. Can you use a different phrase, maybe Double rooms?",
+            "attribute": "room_type",
             "entities":"countable",
             "intent": ["countable"]
         }

@@ -104,6 +104,12 @@
         ]
       },
       {
+        "text":   "Single room",        "intent":  "countable",
+        "entities": [
+          {"start": 0, "end":  6, "value":  "single", "entity": "countable"}
+        ]
+      },
+      {
         "text":   "Triple rooms",        "intent":  "countable",
         "entities": [
           {"start": 0, "end":  6, "value":  "triple", "entity": "countable"}

@@ -14,19 +14,12 @@ logger = logging.getLogger(__name__)
 
 model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190503-153134"
 model_directory_env = os.environ.get("MODEL_DIR")
-model_directory = model_directory_env if model_directory_env is not None\
-    else "./model/default/model_20190613-205444"
+model_directory = model_directory_env if (model_directory_env is not None and len(model_directory_env)>0)\
+    else "./model/default/model_20190614-070915"
 
 nlp = spacy.load('en_core_web_md')
 interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None
 place_intents = ['hotel']
-
-folloup_radius = 2000
-default_radius = 3600
-max_radius = 5000
-
-initial_suggestion_count = 8
-
 
 class DialogNlp:
 
@@ -87,7 +80,7 @@ def train_intent():
     model_directory = trainer.persist('./model/')
 
 
-suggestion_attr = "selected_items"
+
 
 if __name__ == "__main__":
     train_intent()
