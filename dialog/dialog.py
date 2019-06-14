@@ -137,7 +137,7 @@ class DialogFlow:
 
     def fetch_initial_city_suggestions(self):
         location = self.form['city']
-        if location is None or len(location)==0:
+        if location is None or len(location) == 0:
             raise Exception('City form field is needed.')
 
         if self.callback_on_searching is not None:
@@ -220,7 +220,7 @@ class DialogFlow:
         if isinstance(date, list): date = date[0]
 
         selected_boxes = self.form[self.suggestion_box_attr] if self.suggestion_box_attr in self.form else []
-        if len(selected_boxes)==0:
+        if len(selected_boxes) == 0:
             bad_list_rep = Reply(None, 'text', "You didn't pick anything. We can start over if you want.")
             return bad_list_rep
 
@@ -527,9 +527,11 @@ class DialogFlow:
             else:
                 replies.append(msg_reply(str_reply))
 
-        logging.info("Message marked these boxes as finished: ")
-        for b in current_matched_boxes:
-            logging.info(b)
+        if len(current_matched_boxes) > 0:
+            logging.info("Message marked these boxes as finished: ")
+            for b in current_matched_boxes:
+                logging.info(b)
+
         if len(replies) == 0:
             replies = [msg_reply("I can't answer that. Do you want to start over? If so just say `stop`.")]
         logging.info("Resulting replies: %s", replies[0])

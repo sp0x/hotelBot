@@ -5,11 +5,15 @@ from viberbot.api.bot_configuration import BotConfiguration
 from viberbot.api.messages.text_message import TextMessage
 from viberbot.api.messages.keyboard_message import KeyboardMessage
 from viberbot.api.messages.picture_message import PictureMessage
+from viberbot.api.messages.location_message import LocationMessage
+
 from viberbot.api.viber_requests import ViberConversationStartedRequest
 from viberbot.api.viber_requests import ViberFailedRequest
 from viberbot.api.viber_requests import ViberMessageRequest
 from viberbot.api.viber_requests import ViberSubscribedRequest
 from viberbot.api.viber_requests import ViberUnsubscribedRequest
+from viberbot.api.viber_requests.viber_seen_request import ViberSeenRequest
+from viberbot.api.viber_requests.viber_delivered_request import ViberDeliveredRequest
 
 from flask import Flask, request, Response
 from iface import ChatIface
@@ -28,7 +32,7 @@ class Viber(ChatIface):
         if self.token is None:
             raise Exception('VIBER_TOKEN env variable is nil.')
         self.bot_configuration = BotConfiguration(
-            name='NetlytTestBot',
+            name=os.environ.get('VIBER_NAME'),
             avatar='https://static.thenounproject.com/png/363639-200.png',
             auth_token=self.token
         )
@@ -66,11 +70,18 @@ class Viber(ChatIface):
         ])
 
     def _on_message(self, user_id, message):
-        viber = self.api
-        is_done, r = self.process_message(user_id, message)
-        viber.send_messages(user_id, [
-            r
-        ])
+        # Make sure our dialog is setup.
+        d = self.get_dialog(user_id)
+        d.on_searching(lambda details: self._callback_on_searching(user_id, details))
+        try:
+            # Process the message
+            is_done, r = self.process_message(user_id, message)
+            # Send replies
+            self.send_message(user_id, r)
+        except Exception as ex:
+            logging.info(ex)
+            self.send_message(user_id, "Sorry can you try a different phrase?")
+
 
     def _callback_on_searching(self, user_id, details):
         viber = self.api
@@ -78,15 +89,13 @@ class Viber(ChatIface):
         place = details['location'].capitalize()
         t = details['type']
         if len(t) == 0:
-            viber.send_messages(user_id, [
-                "Great. Here are a few places for you to stay in {0}..".format(place)
-            ])
+            txtmsg = TextMessage(text= "Great. Here are a few places for you to stay in {0}..".format(place))
+            viber.send_messages(user_id, [ txtmsg ])
         else:
-            viber.send_messages(user_id, [
-                "Great. I'll start searching for {0} in {1}..".format('placest to stay', place)
-            ])
+            txtmsg = TextMessage(text="Great. I'll start searching for {0} in {1}..".format('placest to stay', place))
+            viber.send_messages(user_id, [ txtmsg ])
 
-    def send_img(self, user_id, rep: dialog.dialog.Reply):
+    def send_img(self, user_id, rep: dialog.dialog.Reply, keyboard: KeyboardMessage=None):
         viber = self.api
         imglist = rep.img
         if not isinstance(imglist, list):
@@ -95,8 +104,11 @@ class Viber(ChatIface):
         if img is None:
             return
         img_url = img['url']
-        pmsg = PictureMessage(media=img_url)
-        viber.send_message(user_id, message=pmsg)
+        k = None
+        if keyboard is not None:
+            k = keyboard._keyboard
+        pmsg = PictureMessage(text=rep.text, media=img_url, tracking_data=user_id, keyboard=k)
+        viber.send_messages(user_id, [pmsg])
 
     def send_keyboard(self, user_id, keyboard):
         viber = self.api
@@ -113,18 +125,25 @@ class Viber(ChatIface):
                 rep = dialog.dialog.msg_reply(rep)
             reply_text = rep.str()
             if reply_text == "": reply_text = "Can you try again with a different phrase?"
+            logging.info("REPL[%s]: %s", rep.type, rep)
+
             if rep.type == 'place':
                 # Send the image and a button for the user to confirm or reject
+                kbd = self.get_place_keyboard(user_id)
                 if rep.img:
-                    self.send_img(user_id, rep)
-                self.send_keyboard(reply_text, self.get_place_keyboard(user_id))
+                    self.send_img(user_id, rep, keyboard=kbd)
+                else:
+                    self.send_keyboard(reply_text, kbd)
             elif rep.type == 'place_list':
                 logging.info("Reply itinerary: %s", reply_text)
-                viber.send_messages(user_id, [reply_text])
+                txtmsg = TextMessage(text=str(reply_text))
+                viber.send_messages(user_id, [txtmsg])
             elif rep.type == 'interest_question':
-                viber.send_message(user_id, reply_text)
+                txtmsg = TextMessage(text=str(reply_text))
+                viber.send_messages(user_id, [txtmsg])
             else:
-                viber.send_message(user_id, reply_text)
+                txtmsg = TextMessage(text=str(reply_text))
+                viber.send_messages(user_id, [txtmsg])
 
     def setup_routes(self):
         app = self.app
@@ -132,26 +151,30 @@ class Viber(ChatIface):
         @app.route('/', methods=['POST'])
         def incoming():
             viber = self.api
-            logging.debug("received request. post data: {0}".format(request.get_data()))
+            data = request.get_data()
+            logging.info("received request. post data: {0}".format(data))
             # every viber message is signed, you can verify the signature using this method
             if not viber.verify_signature(request.get_data(), request.headers.get('X-Viber-Content-Signature')):
                 return Response(status=403)
 
             # this library supplies a simple way to receive a request object
-            viber_request = viber.parse_request(request.get_data())
-
+            viber_request = viber.parse_request(data)
 
             if isinstance(viber_request, ViberConversationStartedRequest):
-                user_id = viber_request.get_user().get_id()
+                user_id = viber_request.user.id
                 self._on_start(user_id)
-
+            elif isinstance(viber_request, ViberSeenRequest):
+                pass
+            elif isinstance(viber_request, ViberDeliveredRequest):
+                pass
             elif isinstance(viber_request, ViberMessageRequest):
                 sender_id = viber_request.sender.id
                 message = viber_request.message
-                self._on_message(sender_id, message)
+                if isinstance(message, TextMessage):
+                    self._on_message(sender_id, message.text)
 
             elif isinstance(viber_request, ViberSubscribedRequest):
-                user_id = viber_request.get_user().get_id()
+                user_id = viber_request.user.id
                 viber.send_messages(user_id, [
                     TextMessage(text="thanks for subscribing!")
                 ])
@@ -174,16 +197,19 @@ class Viber(ChatIface):
 
     def get_place_keyboard(self, user_id):
         import json
-        keyboard = json.dumps({
+        keyboard = {
+            "DefaultHeight": True,
+            "BgColor": "#FFFFFF",
+            "Type": "keyboard",
             "Buttons": [{
                 "Columns": 2,
                 "Rows": 2,
-                "Text": "<font color=\"#494E67\">Confirm 😃</font><br><br>",
+                "Text": "<font color=\"#494E67\">Confirm</font><br><br>",
                 "TextSize": "medium",
                 "TextHAlign": "center",
                 "TextVAlign": "bottom",
                 "ActionType": "reply",
-                "ActionBody": "Confirm 😃",
+                "ActionBody": "Confirm",
                 "BgColor": "#f7bb3f",
             }, {
                 "Columns": 2,
@@ -194,7 +220,7 @@ class Viber(ChatIface):
                 "TextVAlign": "bottom",
                 "ActionType": "reply",
                 "ActionBody": "Reject",
-                "BgColor": "# f6f7f9",
+                "BgColor": "#f6f7f9",
             },
                 {
                     "Columns": 2,
@@ -205,9 +231,9 @@ class Viber(ChatIface):
                     "TextVAlign": "bottom",
                     "ActionType": "reply",
                     "ActionBody": "Stop",
-                    "BgColor": "# f6f7f9",
+                    "BgColor": "#f6f7f9",
                 }
             ]
-        })
+        }
         msg = KeyboardMessage(tracking_data=user_id, keyboard=keyboard)
         return msg
