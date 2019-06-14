@@ -145,7 +145,7 @@ class DialogFlow:
                 'location': api.location_name(location),
                 'type': ""
             })
-        query = api.PlaceQuery("", [], None)
+        query = api.PlaceQuery("hotel", [], None)
         query.types = ['establishment']
         recs = api.get_random_locations(location, query, self.initial_suggestion_count, probs=self.probs,
                                         radius=api.max_radius)

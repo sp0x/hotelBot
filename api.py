@@ -3,6 +3,7 @@ import os
 import random
 import logging
 import numpy as np
+
 logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -11,6 +12,7 @@ google_places = GooglePlaces(os.environ.get('GOOGLE_TOKEN'))
 folloup_radius = 2000
 default_radius = 3600
 max_radius = 5000
+
 
 def __fetch_photo(p):
     if p is not None:
@@ -37,7 +39,7 @@ place_types = [
 
 query_examples = [
     'museum', 'bar', 'restaurant', 'coffee', 'shop', 'gallery', 'landmark', 'gym', 'hotel',
-    'night club', 'beer place','monuments','sights','festivals'
+    'night club', 'beer place', 'monuments', 'sights', 'festivals'
 ]
 
 
@@ -52,8 +54,10 @@ def get_random_locations(location, query, count, probs, radius=3200, exclusions=
     cnt = random.randint(1, len(query_examples))
     all_results = []
     for c in range(cnt):
-        keyword = np.random.choice(query_examples, p=probs)
-        query.set_query(keyword)
+        if not query.has_query_keywords():
+            keyword = np.random.choice(query_examples, p=probs)
+            query.set_query_keywords(keyword)
+
         keywords = query.capitalize()
         types = query.types
         if isinstance(location, Place):
@@ -129,5 +133,8 @@ class PlaceQuery:
     def __str__(self) -> str:
         return "%s: %s" % (self.types, self.query_string)
 
-    def set_query(self, strx):
+    def set_query_keywords(self, strx):
         self.query_string = strx
+
+    def has_query_keywords(self):
+        return self.query_string is not None and len(self.query_string) > 0
