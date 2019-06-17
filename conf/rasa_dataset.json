@@ -19,6 +19,10 @@
         "value":"restaurant",
         "synonyms":["place to eat", "grill", "dinner", "pizzeria", "eat"]
       },
+       {
+        "value":"hotel",
+        "synonyms":["place to stay", "booking", "sleep"]
+      },
       {
         "value":"bar",
         "synonyms":["pub","place to drink", "drink"]
@@ -87,11 +91,6 @@
       {        "text": "no I'm not",        "intent": "reject",        "entities": []      },
       {        "text": "not",        "intent": "reject",        "entities": []      },
       {
-        "text": "i'm looking for a place to eat",
-        "intent": "restaurant",
-        "entities": []
-      },
-      {
         "text":   "Double rooms",        "intent":  "countable",
         "entities": [
           {"start": 0, "end":  6, "value":  "double", "entity": "countable"}
@@ -125,217 +124,6 @@
         "intent": "fly_from",
         "entities": [
           {"start": 15, "end":  21, "value":  "london", "entity":  "location"}
-        ]
-      },
-      {
-        "text": "where can I eat in manchester",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start":19,
-            "end":29,
-            "value":"manchester",
-            "entity":"location"
-          }
-        ]
-      },
-      {
-        "text": "I want to grab lunch",
-        "intent": "restaurant",
-        "entities": []
-      },
-      {
-        "text": "I want to eat",
-        "intent": "restaurant",
-        "entities": []
-      },
-      {
-        "text": "I want to drink",
-        "intent": "bar",
-        "entities": []
-      },
-      {
-        "text": "I am searching for a dinner spot",
-        "intent": "restaurant",
-        "entities": []
-      },
-      {
-        "text": "i'm looking for a place in the north of town",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 31,
-            "end": 36,
-            "value": "north",
-            "entity": "location"
-          }
-        ]
-      },
-      {
-        "text": "show me chinese restaurants",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 8,
-            "end": 15,
-            "value": "chinese",
-            "entity": "cuisine"
-          },
-          {
-            "start":8,
-            "end":27,
-            "value":"restaurant",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me chines restaurants in the north",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 8,
-            "end": 14,
-            "value": "chinese",
-            "entity": "cuisine"
-          },
-          {
-            "start": 34,
-            "end": 39,
-            "value": "north",
-            "entity": "location"
-          },
-          {
-            "start":8,
-            "end":18,
-            "value":"chines restaurants",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me a mexican place in the centre",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 31,
-            "end": 37,
-            "value": "centre",
-            "entity": "location"
-          },
-          {
-            "start": 10,
-            "end": 17,
-            "value": "mexican",
-            "entity": "cuisine"
-          }
-        ]
-      },
-      {
-        "text": "i am looking for an indian spot called olaolaolaolaolaola",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 20,
-            "end": 26,
-            "value": "indian",
-            "entity": "cuisine"
-          }
-        ]
-      },
-      {
-        "text": "search for restaurants",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start":11,
-            "end":21,
-            "value":"restaurant",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "restaurants",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start":0,
-            "end":11,
-            "value":"restaurants",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "food",
-        "intent": "restaurant",
-        "entities": []
-      },
-      {
-        "text": "I am looking for asian fusion food",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 17,
-            "end": 29,
-            "value": "asian fusion",
-            "entity": "cuisine"
-          }
-        ]
-      },
-      {
-        "text": "I am looking a restaurant in 29432",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 29,
-            "end": 34,
-            "value": "29432",
-            "entity": "location"
-          },
-          {
-            "start":15,
-            "end":25,
-            "value":"restaurant",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "I am looking for mexican indian fusion",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 17,
-            "end": 38,
-            "value": "mexican indian fusion",
-            "entity": "cuisine"
-          }
-        ]
-      },
-      {
-        "text": "central indian restaurant",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start": 0,
-            "end": 7,
-            "value": "central",
-            "entity": "location"
-          },
-          {
-            "start": 8,
-            "end": 14,
-            "value": "indian",
-            "entity": "cuisine"
-          },
-          {
-            "start":8,
-            "end":25,
-            "value":"indian restaurant",
-            "entity":"interest"
-          }
         ]
       },
       {
@@ -561,30 +349,6 @@
         ]
       },
       {
-        "text": "i want to go to a restaurant",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start":18,
-            "end":28,
-            "value":"restaurant",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "whats the best restaurant",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start":15,
-            "end":25,
-            "value":"restaurant",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
         "text": "i want to go to a coffee shop",
         "intent": "coffee",
         "entities": [
@@ -604,18 +368,6 @@
             "start":15,
             "end":21,
             "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "restaurant",
-        "intent": "restaurant",
-        "entities": [
-          {
-            "start":0,
-            "end":10,
-            "value":"restaurant",
             "entity":"interest"
           }
         ]
@@ -939,30 +691,6 @@
         ]
       },
       {
-        "text": "I'm going to London on Thursday show me all restaurants",
-        "intent": "visit",
-        "entities": [
-          {
-            "start":13,
-            "end":19,
-            "value":"London",
-            "entity":"location"
-          },
-          {
-            "start":23,
-            "end":31,
-            "value":"Thursday",
-            "entity":"DATE"
-          },
-          {
-            "start":44,
-            "end":55,
-            "value":"restaurants",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
         "text": "I'll be in Veliko Turnovo on May the 2nd show me all bars",
         "intent": "visit",
         "entities": [
@@ -1196,7 +924,14 @@
         "text": "have a good one",
         "intent": "goodbye",
         "entities": []
-      }
+      },
+      {        "text": "I want to book a hotel", "intent": "book_hotel" },
+      {        "text": "book a hotel", "intent": "book_hotel" },
+      {        "text": "I'm looking for a hotel", "intent": "book_hotel" },
+      {        "text": "hotel", "intent": "book_hotel" },
+      {        "text": "Want a hotel", "intent": "book_hotel" },
+      {        "text": "I want a hotel", "intent": "book_hotel" },
+      {        "text": "Book me a hotel", "intent": "book_hotel" }
     ]
   }
 }

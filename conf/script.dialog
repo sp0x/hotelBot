@@ -5,6 +5,12 @@
     "interests": ["hotel"],
     "conversation":[
         {
+            "question":"I'll help you plan your adventures. What do you want to do next?",
+            "accepted":"",
+            "rejected":"Sorry, can't help with that. I'm still learning so right now I can only help you with booking hotels.",
+            "intent":["visit", "book_hotel"]
+        },
+        {
             "question":"Which city do you plan to visit?",
             "accepted":"",
             "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
@@ -17,14 +23,16 @@
             "accepted":"",
             "rejected":"Sorry I didn't understand that date, can you try again with something like June 25?",
             "attribute":"date",
-            "entities":"DATE"
+            "entities":"DATE",
+            "buttons": ["Back"]
         },
         {
             "question":"Okay, how many people are staying?",
             "accepted":"",
             "rejected":"I didn't catch that. Can you use a different phrase, maybe try numbers?",
             "entities":"CARDINAL",
-            "attribute": "guest_count"
+            "attribute": "guest_count",
+            "buttons": ["Back"]
         },
         {
             "question":"What rooms do you prefer?",
@@ -32,7 +40,8 @@
             "rejected":"I didn't catch that. Can you use a different phrase, maybe Double rooms?",
             "attribute": "room_type",
             "entities":"countable",
-            "intent": ["countable"]
+            "intent": ["countable"],
+            "buttons": ["Single", "Double", "Triple"]
         }
     ]
 }

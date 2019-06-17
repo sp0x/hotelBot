@@ -12,20 +12,20 @@ logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d}
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190503-153134"
+model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190617-075623"
 model_directory_env = os.environ.get("MODEL_DIR")
-model_directory = model_directory_env if (model_directory_env is not None and len(model_directory_env)>0)\
-    else "./model/default/model_20190614-070915"
+model_directory = model_directory_env if (model_directory_env is not None and len(model_directory_env) > 0) \
+    else "./model/default/model_20190617-080845"
 
 nlp = spacy.load('en_core_web_md')
 interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None
 place_intents = ['hotel']
 
+
 class DialogNlp:
 
     def __init__(self, interest_intents):
         self.interest_intents = interest_intents
-
 
     def parse_intent(self, text):
         intent_data = interpreter.parse(text)
@@ -78,8 +78,6 @@ def train_intent():
     trainer.train(train_data)
     global model_directory
     model_directory = trainer.persist('./model/')
-
-
 
 
 if __name__ == "__main__":

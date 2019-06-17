@@ -1,5 +1,7 @@
 import os
 import threading
+import traceback
+
 from viberbot import Api
 from viberbot.api.bot_configuration import BotConfiguration
 from viberbot.api.messages.text_message import TextMessage
@@ -41,6 +43,7 @@ class Viber(ChatIface):
         self.web_config = web_config
         self.web_url = web_url
         self.setup_routes()
+        self.last_message = None
 
     def run(self):
         web_config = self.web_config
@@ -60,13 +63,15 @@ class Viber(ChatIface):
     #  Message handlers
     #
 
+    # Conversation start allows only 1 message before a subscription
     def _on_start(self, user_id):
         viber = self.api
         d = self.get_dialog(user_id)
         g = d.start()
         d.on_searching(lambda details: self._callback_on_searching(user_id, details))
+        keyboard_msg = self.get_initial_keyboard(user_id)._keyboard
         viber.send_messages(user_id, [
-            TextMessage(text=g)
+            TextMessage(text=g, keyboard=keyboard_msg),
         ])
 
     def _on_message(self, user_id, message):
@@ -79,9 +84,10 @@ class Viber(ChatIface):
             # Send replies
             self.send_message(user_id, r)
         except Exception as ex:
+            tb = traceback.format_exc()
+            logging.info(tb)
             logging.info(ex)
             self.send_message(user_id, "Sorry can you try a different phrase?")
-
 
     def _callback_on_searching(self, user_id, details):
         viber = self.api
@@ -89,13 +95,13 @@ class Viber(ChatIface):
         place = details['location'].capitalize()
         t = details['type']
         if len(t) == 0:
-            txtmsg = TextMessage(text= "Great. Here are a few places for you to stay in {0}..".format(place))
-            viber.send_messages(user_id, [ txtmsg ])
+            txtmsg = TextMessage(text="Great. Here are a few places for you to stay in {0}..".format(place))
+            viber.send_messages(user_id, [txtmsg])
         else:
             txtmsg = TextMessage(text="Great. I'll start searching for {0} in {1}..".format('placest to stay', place))
-            viber.send_messages(user_id, [ txtmsg ])
+            viber.send_messages(user_id, [txtmsg])
 
-    def send_img(self, user_id, rep: dialog.dialog.Reply, keyboard: KeyboardMessage=None):
+    def send_img(self, user_id, rep: dialog.dialog.Reply, keyboard: KeyboardMessage = None):
         viber = self.api
         imglist = rep.img
         if not isinstance(imglist, list):
@@ -170,14 +176,14 @@ class Viber(ChatIface):
             elif isinstance(viber_request, ViberMessageRequest):
                 sender_id = viber_request.sender.id
                 message = viber_request.message
+                # We need unique messages
                 if isinstance(message, TextMessage):
-                    self._on_message(sender_id, message.text)
+                    is_old = (self.last_message is not None and self.last_message[0] == message.text and
+                             self.last_message[1] == sender_id)
+                    if not is_old:
+                        self._on_message(sender_id, message.text)
+                        self.last_message = (message.text, sender_id)
 
-            elif isinstance(viber_request, ViberSubscribedRequest):
-                user_id = viber_request.user.id
-                viber.send_messages(user_id, [
-                    TextMessage(text="thanks for subscribing!")
-                ])
             elif isinstance(viber_request, ViberFailedRequest):
                 logging.warn("client failed receiving message. failure: {0}".format(viber_request))
 
@@ -235,5 +241,23 @@ class Viber(ChatIface):
                 }
             ]
         }
-        msg = KeyboardMessage(tracking_data=user_id, keyboard=keyboard)
+        msg = KeyboardMessage(keyboard=keyboard)
+        return msg
+
+    def get_initial_keyboard(self, user_id):
+        keyboard = {
+            "Type": "keyboard",
+            "Buttons": [{
+                "Columns": 6,
+                "ActionType": "reply",
+                "Rows": 1,
+                "Text": "<font color=\"#494E67\">I want to book a hotel</font><br><br>",
+                "TextSize": "medium",
+                "TextHAlign": "center",
+                "TextVAlign": "bottom",
+                "ActionBody": "I want to book a hotel",
+            }
+            ]
+        }
+        msg = KeyboardMessage(keyboard=keyboard)
         return msg

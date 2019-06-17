@@ -397,6 +397,8 @@ class DialogFlow:
             return api.PlaceQuery("", [t[0] for t in sorted_x[:2]], None)
 
     def set_form_matches(self, box, matches):
+        if len(matches)==0:
+            return
         if isinstance(matches, list) and not isinstance(matches, str): matches = matches[0]
         if isinstance(matches, list) and not isinstance(matches, str): matches = matches[0]
         self.form[box.attribute] = matches
