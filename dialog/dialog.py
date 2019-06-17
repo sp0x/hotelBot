@@ -3,7 +3,7 @@ from copy import deepcopy
 import random
 import numpy as np
 import logging
-
+import dateparser
 logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
                     datefmt='%Y-%m-%d:%H:%M:%S',
                     level=logging.DEBUG)
@@ -44,6 +44,7 @@ class DialogFlow:
         self.box = self.boxes[0]
         self.last_affirmed_place = None
         self.last_interest = None
+        self.initialized_suggestions = False
         logging.info("Reset dialog.")
 
     def go_back(self):
@@ -195,7 +196,7 @@ class DialogFlow:
         logging.info([str(b) for b in selected_boxes])
         place_ = selected_boxes[0].data['place']
         place_url = create_places_link([place_])
-        booking_url = create_booking_link(place_.name)
+        booking_url = create_booking_link(place_.name, self.form)
         for box in selected_boxes:
             place = box.data['place']
             loc = "[{0}]({1}) - {2}".format(place.name, place.url, place.formatted_address)
@@ -314,8 +315,8 @@ class DialogFlow:
         if self.is_done():
             return reply, matched_boxes
 
-        logging.info("Boxes left: ")
-        for b in boxes: logging.info(b)
+        #logging.info("Boxes left: ")
+        #for b in boxes: logging.info(b)
 
         for b in boxes:
             # logging.info("Non finished boxes: %s", b)
@@ -414,10 +415,7 @@ class DialogFlow:
     def process_intent(self, intent, ents):
         box = self.box
         initial_has_suggestions = self.has_suggestions()
-        logging.info("Parsed intent %s", intent)
-        logging.info("Entity %s", ents)
-        logging.info("Current box: %s", box)
-
+        logging.info("Processing: %s %s %s", intent, ents, box)
         # 2.1 check if intent matches greeting
         if intent == 'greet' and not 'DATE' in ents:
             self.reset()
@@ -496,7 +494,7 @@ class DialogFlow:
 
         # 3. check if intent matches other boxes
         rep, itents_matched_boxes = self.match_all_intents(intent, ents)
-        logging.info("Matched all intents: %s", rep)
+        # logging.info("Matched all intents: %s", rep)
         current_matched_boxes.extend(itents_matched_boxes)
 
         # logging.info("Parsed intent: %s %s", str(intent), str(ents))
@@ -584,16 +582,34 @@ def create_places_link(places):
     return url_base
 
 
-def create_booking_link(search_term):
+def create_booking_link(search_term, form):
     """
     https://www.booking.com/searchresults.en-gb.html?ss=Sofia&dest_type=city
+    :param form:
     :param search_term:
     :return:
     """
     from urllib.parse import urlencode, parse_qs, urlsplit, urlunsplit
     url_base = "https://www.booking.com/searchresults.en-gb.html?"
+    guest_count = form['guest_count'] if 'guest_count' in form else 1
+    child_count = form['child_count'] if 'child_count' in form else 0
+    city = form['city'] if 'city' in form else ''
+    logging.info("Creating booking link from form: %s", form)
+    date = dateparser.parse(form['date'])
     query_params = {
         'ss': search_term,
+        'sb': 1,
+        'src': 'searchresults',
+        'src_elem': 'sb',
+        'group_adults': guest_count,
+        'group_children': child_count,
+        'checkin_year': date.year,
+        'checkin_month': date.month,
+        'checkin_monthday': date.day,
+        'is_ski_area': 0,
+        'city': city,
+        'lang': 'en-gb',
+
         #'dest_type': 'city'
     }
     querystring = urlencode(query_params, doseq=True)

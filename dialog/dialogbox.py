@@ -110,6 +110,6 @@ def format_form_message(form, msg):
         # if isinstance(f, list): f = f[0]
         if isinstance(f, DialogBox):
             continue
-        logging.info("Form field: %s , %s", k, f)
+        # logging.info("Form field: %s , %s", k, f)
         printable_form[k] = f.capitalize()
     return msg.format(**printable_form)

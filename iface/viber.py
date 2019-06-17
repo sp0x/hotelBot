@@ -206,12 +206,12 @@ class Viber(ChatIface):
                 if isinstance(message, TextMessage):
                     ts = int(request_dict['timestamp'])
                     is_old = (self.last_message is not None and
-                              self.last_message[2] == ts and
+                              (self.last_message[2] == ts or self.last_message[0] == message.text) and
                               self.last_message[1] == sender_id)
                     cr_pair = (message.text, sender_id, ts)
-                    logging.info("MSG DUMP: %s", cr_pair)
-                    logging.info("LAST DUMP: %s", self.last_message)
-                    logging.info("DUP: %s", is_old)
+                    #logging.info("MSG DUMP: %s", cr_pair)
+                    #logging.info("LAST DUMP: %s", self.last_message)
+                    #logging.info("DUP: %s", is_old)
                     if not is_old:
                         self.last_message = cr_pair
                         self._on_message(sender_id, message.text)
