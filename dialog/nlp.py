@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 model_directory = "D:/Dev/Projects/Other/dora/model/default/model_20190617-075623"
 model_directory_env = os.environ.get("MODEL_DIR")
 model_directory = model_directory_env if (model_directory_env is not None and len(model_directory_env) > 0) \
-    else "./model/default/model_20190617-080845"
+    else "./model/default/model_20190617-162122"
 
 nlp = spacy.load('en_core_web_md')
 interpreter = Interpreter.load(model_directory) if os.path.isdir(model_directory) else None
@@ -29,8 +29,11 @@ class DialogNlp:
 
     def parse_intent(self, text):
         intent_data = interpreter.parse(text)
-        if str(text).strip().lower()=="back":
+        lstr = str(text).strip().lower()
+        if lstr=="back":
             return "back", {}
+        elif lstr == "start over":
+            return "reset_all", {}
 
         # print(intent_data)
         intent = intent_data['intent']['name']

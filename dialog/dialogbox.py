@@ -12,10 +12,12 @@ class DialogBox:
         self.rejected = params.get('rejected', '')
         self.attribute = params.get('attribute', '')
         self.buttons = params.get('buttons', [])
+        self.role = params.get('role', '')
         # The data from the locations API
         self.data = params.get('data', [])
         self.finished = False
         self.answer_intent = None
+
 
     def finish(self, intent):
         self.finished = True

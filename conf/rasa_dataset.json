@@ -90,6 +90,7 @@
       {        "text": "not that",        "intent": "reject",        "entities": []      },
       {        "text": "no I'm not",        "intent": "reject",        "entities": []      },
       {        "text": "not",        "intent": "reject",        "entities": []      },
+      {        "text":  "start over", "intent":  "reset_all"},
       {
         "text":   "Double rooms",        "intent":  "countable",
         "entities": [

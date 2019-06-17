@@ -8,7 +8,7 @@ class Reply:
         self.data = box.data if box is not None else None
         self.text = text
         self.img = data['img'] if (data is not None and 'img' in data) else None
-        self.buttons = []
+        self.buttons = [] if box is None else box.buttons
 
     def str(self):
         text = self.text

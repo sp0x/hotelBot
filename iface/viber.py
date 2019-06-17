@@ -83,6 +83,8 @@ class Viber(ChatIface):
             is_done, r = self.process_message(user_id, message)
             # Send replies
             self.send_replies(user_id, r)
+            if is_done:
+                self.send_on_done(user_id)
         except Exception as ex:
             tb = traceback.format_exc()
             logging.info(tb)
@@ -134,6 +136,14 @@ class Viber(ChatIface):
             logging.info("REPL[%s]: %s", rep.type, rep)
             self.send_reply(rep, reply_text, user_id)
 
+    def send_on_done(self, user_id):
+        init_kbd = self.get_initial_keyboard(user_id)
+        viber = self.api
+        viber.send_messages(user_id, [
+            init_kbd
+        ])
+
+
     def send_reply(self, rep, reply_text, user_id):
         viber = self.api
         if rep.type == 'place':
@@ -151,7 +161,9 @@ class Viber(ChatIface):
             txtmsg = TextMessage(text=str(reply_text), keyboard=buttons_to_keyboard(rep.buttons))
             viber.send_messages(user_id, [txtmsg])
         else:
-            txtmsg = TextMessage(text=str(reply_text), keyboard=buttons_to_keyboard(rep.buttons))
+            rkbd = buttons_to_keyboard(rep.buttons)
+            logging.info("KBD: %s", rkbd)
+            txtmsg = TextMessage(text=str(reply_text), keyboard=rkbd)
             viber.send_messages(user_id, [txtmsg])
 
     def setup_routes(self):
@@ -191,8 +203,9 @@ class Viber(ChatIface):
                     logging.info("LAST DUMP: %s", self.last_message)
                     logging.info("DUP: %s", is_old)
                     if not is_old:
-                        self._on_message(sender_id, message.text)
                         self.last_message = cr_pair
+                        self._on_message(sender_id, message.text)
+                        #self.last_message = cr_pair
 
             elif isinstance(viber_request, ViberFailedRequest):
                 logging.warn("client failed receiving message. failure: {0}".format(viber_request))
@@ -219,7 +232,7 @@ class Viber(ChatIface):
             "Text": "<font color=\"#494E67\">Confirm</font>",
             "TextSize": "medium",
             "TextHAlign": "center",
-            "TextVAlign": "bottom",
+            "TextVAlign": "middle",
             "ActionType": "reply",
             "ActionBody": "Yes",
             "BgColor": "#f7bb3f",
@@ -229,22 +242,22 @@ class Viber(ChatIface):
             "Text": "<font color=\"#494E67\">Reject</font>",
             "TextSize": "medium",
             "TextHAlign": "center",
-            "TextVAlign": "bottom",
+            "TextVAlign": "middle",
             "ActionType": "reply",
             "ActionBody": "No",
             "BgColor": "#f6f7f9",
         },
-            {
-                "Columns": 2,
-                "Rows": 2,
-                "Text": "<font color=\"#494E67\">Stop</font>",
-                "TextSize": "medium",
-                "TextHAlign": "center",
-                "TextVAlign": "middle",
-                "ActionType": "reply",
-                "ActionBody": "Stop",
-                "BgColor": "#f6f7f9",
-            }
+        {
+            "Columns": 2,
+            "Rows": 2,
+            "Text": "<font color=\"#494E67\">Stop</font>",
+            "TextSize": "medium",
+            "TextHAlign": "center",
+            "TextVAlign": "middle",
+            "ActionType": "reply",
+            "ActionBody": "Stop",
+            "BgColor": "#f6f7f9",
+        }
         ]
         if additional_buttons:
             buttons.extend([{

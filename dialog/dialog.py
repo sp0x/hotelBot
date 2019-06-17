@@ -89,7 +89,9 @@ class DialogFlow:
         return done and len(incomplete_boxes) == 0
 
     def greet(self):
-        return [random.choice(self.opener), self.boxes[0].question]
+        greeting_box = next(iter([b for b in self.boxes if b.role == "greet"]), None)
+        msg_rep = Reply(greeting_box, 'text', [random.choice(self.opener), self.boxes[0].question])
+        return msg_rep
 
     def start(self):
         """
@@ -190,8 +192,10 @@ class DialogFlow:
             return bad_list_rep
 
         locations = []
-        place_url = create_places_link([selected_boxes[0]['place']])
-        booking_url = create_booking_link(selected_boxes[0]['place'])
+        logging.info([str(b) for b in selected_boxes])
+        place_ = selected_boxes[0].data['place']
+        place_url = create_places_link([place_])
+        booking_url = create_booking_link(place_)
         for box in selected_boxes:
             place = box.data['place']
             loc = "[{0}]({1}) - {2}".format(place.name, place.url, place.formatted_address)
@@ -204,7 +208,7 @@ class DialogFlow:
             text = 'Your trip to {0} Tomorrow will include the following place: '.format(city)
         else:
             text = 'Your trip to {0} on {1} will include the following place: '.format(city, date)
-        text += booking_url + " [Map](" + place_url + ")"
+        text += booking_url + " \n[Map](" + place_url + ")"
         rep = Reply(None, 'place_list', text)
         rep.data = locations
         return rep
@@ -268,6 +272,7 @@ class DialogFlow:
                     # logging.info(self.boxes)
                     itinerary_reply = self.create_itinerary()
                     itinerary_reply.prepend("I have all the information I need. Here's your itinerary ")
+                    logging.info("Created itinerary")
                     # self.reset()
                     return [itinerary_reply]
                 else:
@@ -281,7 +286,7 @@ class DialogFlow:
                 itinerary_reply = self.create_itinerary()
                 itinerary_reply.prepend("I have all the information I need. Here's your itinerary ")
                 # self.reset()
-                # logging.info("Creating itinerary")
+                logging.info("Created itinerary")
                 return [itinerary_reply]
         else:
             # Go to next unfinished box
@@ -416,11 +421,16 @@ class DialogFlow:
         # 2.1 check if intent matches greeting
         if intent == 'greet' and not 'DATE' in ents:
             self.reset()
-            return False, [msg_reply(self.greet())]
+            return False, [self.greet()]
+
         if intent == 'back':
             self.go_back()
             response = self.next()
             return False, response
+
+        if intent == "reset_all":
+            self.reset()
+            return False, self.next()
 
         # 2.2 check if intent matches end
         replies = []

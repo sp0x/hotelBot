@@ -5,11 +5,12 @@
     "interests": ["hotel", "countable"],
     "conversation":[
         {
-            "question":"I'll help you plan your adventures. What do you want to do next?",
+            "question":"I'll help you plan your trip. What do you want to do next?",
             "accepted":"",
             "rejected":"Sorry, can't help with that. I'm still learning so right now I can only help you with booking hotels.",
             "intent":["visit", "book_hotel"],
-            "buttons": "I want to book a hotel"
+            "buttons": ["I want to book a hotel"],
+            "role": "greet"
         },
         {
             "question":"Which city do you plan to visit?",
