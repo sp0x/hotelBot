@@ -36,5 +36,11 @@ class ChatIface:
 
     def process_message(self, uid, msg):
         d = self.get_dialog(uid)
+        if msg.lower() == "single":
+            msg = "Single rooms"
+        elif msg.lower() == "double":
+            msg = "Double rooms"
+        elif msg.lower() == "triple":
+            msg = "Triple rooms"
         done, replies = d.process_message(msg)
         return done, replies

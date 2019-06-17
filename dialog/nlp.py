@@ -29,6 +29,9 @@ class DialogNlp:
 
     def parse_intent(self, text):
         intent_data = interpreter.parse(text)
+        if str(text).strip().lower()=="back":
+            return "back", {}
+
         # print(intent_data)
         intent = intent_data['intent']['name']
         entities = {}

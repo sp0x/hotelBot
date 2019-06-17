@@ -9,58 +9,10 @@ logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:
                     level=logging.DEBUG)
 
 from dialog.nlp import DialogNlp
+from dialog.dialogbox import DialogBox, format_form_message, msg_reply
+from dialog.reply import Reply
 
 import api
-
-
-class DialogBox:
-    def __init__(self, params):
-        self.intent = params.get('intent', [])
-        self.entities = params.get('entities', '')
-        self.accepted = params.get('accepted', '')
-        self.question = params.get('question', '')
-        self.rejected = params.get('rejected', '')
-        self.attribute = params.get('attribute', '')
-        # The data from the locations API
-        self.data = params.get('data', [])
-        self.finished = False
-        self.answer_intent = None
-
-    def finish(self, intent):
-        self.finished = True
-        self.answer_intent = intent
-
-    def has_entity(self, entity_name):
-        return entity_name in self.entities
-
-    def validate_answer(self, intent, ents):
-        """
-
-        :param intent:
-        :param ents:
-        :return: bool, str, list
-        """
-        valid = intent in self.intent if self.intent else True
-        matches = []
-        for e in ents:
-            if e in self.entities:
-                matches.append(ents[e])
-        valid = len(matches) > 0 if self.entities else valid
-        return valid, self.accepted if valid else self.rejected, matches
-
-    def is_suggestion(self):
-        return self.attribute == 'selected_items'
-
-    def has_data(self):
-        return self.data is not None and len(self.data) > 0
-
-    def is_yes_no(self):
-        return 'reject' in self.intent and 'confirm' in self.intent
-
-    def __str__(self) -> str:
-        return "Dialogbox {4}:{0} {3} - ents {1} - Answer: {2}  ".format(self.intent, self.entities, self.answer_intent,
-                                                                         self.question,
-                                                                         'Done' if self.finished else 'NotDone')
 
 
 class DialogFlow:
@@ -93,6 +45,19 @@ class DialogFlow:
         self.last_affirmed_place = None
         self.last_interest = None
         logging.info("Reset dialog.")
+
+    def go_back(self):
+        if self.index == 0:
+            return
+        i = self.index
+        logging.info("Index: %s", i)
+        i -= 1
+        self.box = self.boxes[i]
+        self.boxes[i].finished = self.box.finished = False
+        self.boxes[i].answer_intent = self.box.answer_intent = None
+        self.index = i  # Update index
+        logging.info("Went back to: %s", self.box)
+        return self
 
     # ______________________________________ Callback setters __________________________________
 
@@ -225,8 +190,8 @@ class DialogFlow:
             return bad_list_rep
 
         locations = []
-        url = create_places_link([box.data['place'] for box in selected_boxes])
-
+        place_url = create_places_link([selected_boxes[0]['place']])
+        booking_url = create_booking_link(selected_boxes[0]['place'])
         for box in selected_boxes:
             place = box.data['place']
             loc = "[{0}]({1}) - {2}".format(place.name, place.url, place.formatted_address)
@@ -239,7 +204,7 @@ class DialogFlow:
             text = 'Your trip to {0} Tomorrow will include the following place: '.format(city)
         else:
             text = 'Your trip to {0} on {1} will include the following place: '.format(city, date)
-        text += " [Map](" + url + ")"
+        text += booking_url + " [Map](" + place_url + ")"
         rep = Reply(None, 'place_list', text)
         rep.data = locations
         return rep
@@ -327,7 +292,7 @@ class DialogFlow:
                     # logging.info("Progressed to box[%d] %s", self.index, self.box)
                     break
 
-        reply = format_box_question(self.box, self.form)
+        reply = self.box.format_box_question(self.form)
         return [reply]
 
     def match_all_intents(self, intent, ents):
@@ -397,7 +362,7 @@ class DialogFlow:
             return api.PlaceQuery("", [t[0] for t in sorted_x[:2]], None)
 
     def set_form_matches(self, box, matches):
-        if len(matches)==0:
+        if len(matches) == 0:
             return
         if isinstance(matches, list) and not isinstance(matches, str): matches = matches[0]
         if isinstance(matches, list) and not isinstance(matches, str): matches = matches[0]
@@ -452,6 +417,10 @@ class DialogFlow:
         if intent == 'greet' and not 'DATE' in ents:
             self.reset()
             return False, [msg_reply(self.greet())]
+        if intent == 'back':
+            self.go_back()
+            response = self.next()
+            return False, response
 
         # 2.2 check if intent matches end
         replies = []
@@ -558,51 +527,6 @@ class DialogFlow:
         return self.process_intent(intent, ents)
 
 
-class Reply:
-
-    def __init__(self, box, type, text):
-        if isinstance(text, list) and not isinstance(text, str):
-            text = '. '.join(text)
-        data = box.data if box is not None else None
-        self.type = type
-        self.data = box.data if box is not None else None
-        self.text = text
-        self.img = data['img'] if (data is not None and 'img' in data) else None
-
-    def str(self):
-        text = self.text
-        if isinstance(text, list) and not isinstance(text, str):
-            text = '. '.join(text)
-        return text
-
-    def prepend(self, prefix):
-        self.text = prefix + self.text
-
-    def __str__(self) -> str:
-        return self.text
-
-
-def box_place_reply(box, question):
-    output = Reply(box, 'place', question)
-    return output
-
-
-def box_interest_reply(box, question):
-    output = Reply(box, 'interest_question', question)
-    output.data = box.intent
-    return output
-
-
-def msg_reply(replies):
-    """
-
-    :param replies: String list or single string
-    :return:
-    """
-    output = Reply(None, 'text', replies)
-    return output
-
-
 # Dialog creation and loading
 #
 def create_empty():
@@ -638,40 +562,6 @@ def reply(r):
         return r
 
 
-def format_form_message(form, msg):
-    printable_form = form.copy()
-    for k in printable_form:
-        if k == "selected_items":
-            continue
-        item = printable_form[k]
-        f = item
-        # if isinstance(f, list): f = f[0]
-        if isinstance(f, DialogBox):
-            continue
-        logging.info("Form field: %s , %s", k, f)
-        printable_form[k] = f.capitalize()
-    return msg.format(**printable_form)
-
-
-def format_box_question(box, form):
-    """
-    Formats a box into a question
-    :param box:
-    :param form:
-    :return:
-    """
-    # question = box.question.format(**form)
-    question = format_form_message(form, box.question)
-    if box.is_yes_no() and box.has_data():
-        place_ = box.data['place']
-        output_reply = box_place_reply(box, question + " - " + place_.formatted_address)
-    elif box.has_entity('interest'):
-        output_reply = box_interest_reply(box, question)
-    else:
-        output_reply = msg_reply(question)
-    return output_reply
-
-
 def create_places_link(places):
     url_base = "https://www.google.com/maps/dir"
     for p in places:
@@ -679,4 +569,21 @@ def create_places_link(places):
         lat = float(location['lat'])
         lng = float(location['lng'])
         url_base += "/{0},{1}".format(lat, lng)
+    return url_base
+
+
+def create_booking_link(search_term):
+    """
+    https://www.booking.com/searchresults.en-gb.html?ss=Sofia&dest_type=city
+    :param search_term:
+    :return:
+    """
+    from urllib.parse import urlencode, parse_qs, urlsplit, urlunsplit
+    url_base = "https://www.booking.com/searchresults.en-gb.html?"
+    query_params = {
+        'ss': search_term,
+        'dest_type': 'city'
+    }
+    querystring = urlencode(query_params, doseq=True)
+    url_base += querystring
     return url_base
