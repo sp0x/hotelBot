@@ -195,7 +195,7 @@ class DialogFlow:
         logging.info([str(b) for b in selected_boxes])
         place_ = selected_boxes[0].data['place']
         place_url = create_places_link([place_])
-        booking_url = create_booking_link(place_)
+        booking_url = create_booking_link(place_.name)
         for box in selected_boxes:
             place = box.data['place']
             loc = "[{0}]({1}) - {2}".format(place.name, place.url, place.formatted_address)
@@ -208,7 +208,7 @@ class DialogFlow:
             text = 'Your trip to {0} Tomorrow will include the following place: '.format(city)
         else:
             text = 'Your trip to {0} on {1} will include the following place: '.format(city, date)
-        text += booking_url + " \n[Map](" + place_url + ")"
+        text += booking_url + " \nMap: " + place_url + ""
         rep = Reply(None, 'place_list', text)
         rep.data = locations
         return rep
@@ -440,8 +440,10 @@ class DialogFlow:
         if intent == 'end':
             # replies = ["Are you sure you want to end your trip planning here?"]
             self.terminating = True
-            replies = self.terminate()
-            # return False, [msg_reply(replies)]
+            replies = [self.create_itinerary()]
+            if self.autoreset_on_done:
+                self.reset()
+            return True, replies
         elif intent == 'goodbye' and self.has_suggestions():
             # replies = ["Are you sure you want to end your trip planning here?"]
             self.terminating = True
@@ -592,7 +594,7 @@ def create_booking_link(search_term):
     url_base = "https://www.booking.com/searchresults.en-gb.html?"
     query_params = {
         'ss': search_term,
-        'dest_type': 'city'
+        #'dest_type': 'city'
     }
     querystring = urlencode(query_params, doseq=True)
     url_base += querystring

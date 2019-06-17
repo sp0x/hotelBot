@@ -8,6 +8,7 @@ from viberbot.api.messages.text_message import TextMessage
 from viberbot.api.messages.keyboard_message import KeyboardMessage
 from viberbot.api.messages.picture_message import PictureMessage
 from viberbot.api.messages.location_message import LocationMessage
+from viberbot.api.messages.rich_media_message import RichMediaMessage
 
 from viberbot.api.viber_requests import ViberConversationStartedRequest
 from viberbot.api.viber_requests import ViberFailedRequest
@@ -23,6 +24,11 @@ import logging
 import time
 import dialog
 
+def listify(o):
+    if isinstance(o, list):
+        return o
+    else:
+        return [o]
 
 class Viber(ChatIface):
 
@@ -44,6 +50,7 @@ class Viber(ChatIface):
         self.web_url = web_url
         self.setup_routes()
         self.last_message = None
+        self.initial_button_text = "I want to book a hotel"
 
     def run(self):
         web_config = self.web_config
@@ -81,10 +88,12 @@ class Viber(ChatIface):
         try:
             # Process the message
             is_done, r = self.process_message(user_id, message)
+            r = listify(r)
+            logging.info("Processed message: , %s", is_done)
             # Send replies
-            self.send_replies(user_id, r)
             if is_done:
-                self.send_on_done(user_id)
+                r[len(r)-1].buttons = [self.initial_button_text]
+            self.send_replies(user_id, r)
         except Exception as ex:
             tb = traceback.format_exc()
             logging.info(tb)
@@ -157,6 +166,7 @@ class Viber(ChatIface):
             logging.info("Reply itinerary: %s", reply_text)
             txtmsg = TextMessage(text=str(reply_text), keyboard=buttons_to_keyboard(rep.buttons))
             viber.send_messages(user_id, [txtmsg])
+
         elif rep.type == 'interest_question':
             txtmsg = TextMessage(text=str(reply_text), keyboard=buttons_to_keyboard(rep.buttons))
             viber.send_messages(user_id, [txtmsg])
@@ -282,11 +292,11 @@ class Viber(ChatIface):
                 "Columns": 6,
                 "ActionType": "reply",
                 "Rows": 1,
-                "Text": "<font color=\"#494E67\">I want to book a hotel</font>",
+                "Text": "<font color=\"#494E67\">" + self.initial_button_text + "</font>",
                 "TextSize": "medium",
                 "TextHAlign": "center",
                 "TextVAlign": "middle",
-                "ActionBody": "I want to book a hotel",
+                "ActionBody": self.initial_button_text,
             }
             ]
         }
