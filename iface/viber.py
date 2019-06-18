@@ -24,11 +24,13 @@ import logging
 import time
 import dialog
 
+
 def listify(o):
     if isinstance(o, list):
         return o
     else:
         return [o]
+
 
 class Viber(ChatIface):
 
@@ -87,12 +89,14 @@ class Viber(ChatIface):
         d.on_searching(lambda details: self._callback_on_searching(user_id, details))
         try:
             # Process the message
-            is_done, r = self.process_message(user_id, message)
-            r = listify(r)
-            logging.info("Processed message: , %s", is_done)
+            is_done, rz = self.process_message(user_id, message)
+            r = [rx for rx in listify(rz) if rx is not None]
+            logging.info("Processed message: %s, %s, %s", r, is_done, rz)
             # Send replies
-            if is_done and r is not None and len(r)>0:
-                r[len(r)-1].buttons = [self.initial_button_text]
+            if is_done and r is not None and len(r) > 0:
+                last_response = r[len(r) - 1]
+                last_response.buttons = [self.initial_button_text]
+
             self.send_replies(user_id, r)
         except Exception as ex:
             tb = traceback.format_exc()
@@ -152,7 +156,6 @@ class Viber(ChatIface):
             init_kbd
         ])
 
-
     def send_reply(self, rep, reply_text, user_id):
         viber = self.api
         if rep.type == 'place':
@@ -209,13 +212,13 @@ class Viber(ChatIface):
                               (self.last_message[2] == ts or self.last_message[0] == message.text) and
                               self.last_message[1] == sender_id)
                     cr_pair = (message.text, sender_id, ts)
-                    #logging.info("MSG DUMP: %s", cr_pair)
-                    #logging.info("LAST DUMP: %s", self.last_message)
-                    #logging.info("DUP: %s", is_old)
+                    # logging.info("MSG DUMP: %s", cr_pair)
+                    # logging.info("LAST DUMP: %s", self.last_message)
+                    # logging.info("DUP: %s", is_old)
                     if not is_old:
                         self.last_message = cr_pair
                         self._on_message(sender_id, message.text)
-                        #self.last_message = cr_pair
+                        # self.last_message = cr_pair
 
             elif isinstance(viber_request, ViberFailedRequest):
                 logging.warn("client failed receiving message. failure: {0}".format(viber_request))
@@ -257,17 +260,17 @@ class Viber(ChatIface):
             "ActionBody": "No",
             "BgColor": "#f6f7f9",
         },
-        {
-            "Columns": 2,
-            "Rows": 2,
-            "Text": "<font color=\"#494E67\">Stop</font>",
-            "TextSize": "medium",
-            "TextHAlign": "center",
-            "TextVAlign": "middle",
-            "ActionType": "reply",
-            "ActionBody": "Stop",
-            "BgColor": "#f6f7f9",
-        }
+            {
+                "Columns": 2,
+                "Rows": 2,
+                "Text": "<font color=\"#494E67\">Stop</font>",
+                "TextSize": "medium",
+                "TextHAlign": "center",
+                "TextVAlign": "middle",
+                "ActionType": "reply",
+                "ActionBody": "Stop",
+                "BgColor": "#f6f7f9",
+            }
         ]
         if additional_buttons:
             buttons.extend([{

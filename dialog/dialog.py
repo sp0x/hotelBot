@@ -483,16 +483,20 @@ class DialogFlow:
                 self.terminating = False
                 return False, self.terminate()  # [format_box_question(self.box, self.form)]
             elif box.attribute == self.suggestion_box_attr:
+                self.boxes[self.index].finish(intent)
                 if intent == 'affirm':
                     items = self.form.get('selected_items', [])
                     items.append(box)
                     self.form['selected_items'] = items
                     self.__affirm_suggestion(box)
-                self.boxes[self.index].finish(intent)
-
+                elif intent == 'reject':
+                    replies = self.next()
+                    return False, replies
+                logging.info("Suggestion: %s %s", intent, self.form)
                 if intent == 'affirm' and self.end_on_affirm:
+                    replies = self.create_itinerary()
                     self.reset()
-                    return True, [self.create_itinerary()]
+                    return True, [replies]
                 else:
                     # elif len(replies)==0:
                     return self.is_done(), replies  # msg_replies(replies)
