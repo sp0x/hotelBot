@@ -260,12 +260,12 @@ class Viber(ChatIface):
         {
             "Columns": 2,
             "Rows": 2,
-            "Text": "<font color=\"#494E67\">Back</font>",
+            "Text": "<font color=\"#494E67\">Stop</font>",
             "TextSize": "medium",
             "TextHAlign": "center",
             "TextVAlign": "middle",
             "ActionType": "reply",
-            "ActionBody": "back",
+            "ActionBody": "Stop",
             "BgColor": "#f6f7f9",
         }
         ]
