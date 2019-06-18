@@ -7,7 +7,7 @@
         {
             "question":"Hi, I'm the Netlyt hotel booking bot. I'll help you find a hotel that best fits your requirements.",
             "accepted":"",
-            "rejected":"Sorry, I didn't catch that. Say "I want to book a hotel" to proceed.",
+            "rejected":"Sorry, I didn't catch that. Say \"I want to book a hotel\" to proceed.",
             "intent":["visit", "book_hotel"],
             "buttons": ["I want to book a hotel"],
             "role": "greet"
@@ -23,7 +23,7 @@
         {
             "question":"Checking for hotels in {city}. What is the start date for the booking?",
             "accepted":"",
-            "rejected":"Sorry, I couldn't catch the date. Please, try again. Use a format like "5th of July".",
+            "rejected":"Sorry, I couldn't catch the date. Please, try again. Use a format like \"5th of July\".",
             "attribute":"date",
             "entities":"DATE",
             "buttons": ["Back"]
