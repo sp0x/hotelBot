@@ -48,8 +48,8 @@ class DialogNlp:
         intent_data = interpreter.parse(text)
         lstr = str(text).strip().lower()
         datex = dateparser.parse(lstr)
-        if datex is not None:
-            return 'date', {'DATE': lstr}
+        # if datex is not None:
+        #     return 'date', {'DATE': lstr}
         if lstr=="back":
             return "back", {}
         elif lstr == "start over":
@@ -70,6 +70,8 @@ class DialogNlp:
             m = entities.get(e['entity'], [])
             m.append(e['value'])
             entities[e['entity']] = m
+        if text.isdigit():
+            entities['CARDINAL'] = text
         if self.is_date(text):
             entities['DATE'] = text
         # if intent not in ['affirm', 'greet', 'reject', 'goodbye', 'end', 'change_form']:

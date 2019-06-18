@@ -492,7 +492,7 @@ class DialogFlow:
 
                 if intent == 'affirm' and self.end_on_affirm:
                     self.reset()
-                    return True, replies
+                    return True, [self.create_itinerary()]
                 else:
                     # elif len(replies)==0:
                     return self.is_done(), replies  # msg_replies(replies)
