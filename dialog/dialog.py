@@ -36,10 +36,12 @@ class DialogFlow:
         self.autoreset_on_done = True
         self.initial_suggestion_count = 8
         self.end_on_affirm = True
+        self.is_start = True
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)
         self.terminating = False
+        self.is_start = True
         self.index = 0
         self.form = {}
         self.box = self.boxes[0]
@@ -418,6 +420,7 @@ class DialogFlow:
         initial_has_suggestions = self.has_suggestions()
         logging.info("Processing: %s %s %s", intent, ents, box)
         # 2.1 check if intent matches greeting
+
         if intent == 'greet' and not 'DATE' in ents:
             self.reset()
             return False, [self.greet()]
@@ -497,15 +500,16 @@ class DialogFlow:
             current_matched_boxes.append(box)
             logging.info("Current box validated. Dialog is done: %s", self.is_done())
 
-        # 3. check if intent matches other boxes
-        rep, itents_matched_boxes = self.match_all_intents(intent, ents)
-        # logging.info("Matched all intents: %s", rep)
-        current_matched_boxes.extend(itents_matched_boxes)
-
+        # # 3. check if intent matches other boxes
+        # rep, itents_matched_boxes = self.match_all_intents(intent, ents)
+        # # logging.info("Matched all intents: %s", rep)
+        # current_matched_boxes.extend(itents_matched_boxes)
+        if self.is_start:
+            rep, itents_matched_boxes = self.match_all_intents(intent, ents)
         # logging.info("Parsed intent: %s %s", str(intent), str(ents))
         # logging.info("Current box %s", self.box)
-        if len(rep) > 0:
-            replies = rep
+        # if len(rep) > 0:
+        #     replies = rep
         if reply:
             str_reply = format_form_message(self.form, reply)
             if len(replies) > 0:

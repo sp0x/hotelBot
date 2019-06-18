@@ -7,18 +7,6 @@
       }
     ],
     "entity_synonyms": [
-      {
-        "value": "chinese",
-        "synonyms": ["Chinese", "Chines", "chines"]
-      },
-      {
-        "value": "vegetarian",
-        "synonyms": ["veggie", "vegg"]
-      },
-      {
-        "value":"restaurant",
-        "synonyms":["place to eat", "grill", "dinner", "pizzeria", "eat"]
-      },
        {
         "value":"hotel",
         "synonyms":["place to stay", "booking", "sleep"]
@@ -113,450 +101,6 @@
         "text":   "Triple rooms",        "intent":  "countable",
         "entities": [
           {"start": 0, "end":  6, "value":  "triple", "entity": "countable"}
-        ]
-      },
-      { "text": "I'm flying from London",
-        "intent": "fly_from",
-        "entities": [
-          {"start": 16, "end":  22, "value":  "london", "entity":  "location"}
-        ]
-      },
-      { "text": "departing from London",
-        "intent": "fly_from",
-        "entities": [
-          {"start": 15, "end":  21, "value":  "london", "entity":  "location"}
-        ]
-      },
-      {
-        "text": "I'm looking for a bar",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":18,
-            "end":21,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "I'm looking for a place to drink",
-        "intent": "bar",
-        "entities": [
-        ]
-      },
-      {
-        "text": "I'm looking for a bar near me",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":22,
-            "end":29,
-            "value":"near me",
-            "entity":"location"
-          },
-          {
-            "start":18,
-            "end":21,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me all the bars in New York",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":24,
-            "end":32,
-            "value":"New York",
-            "entity":"location"
-          },
-          {
-            "start":16,
-            "end":20,
-            "value":"bars",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "local bars",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":0,
-            "end":10,
-            "value":"local bars",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "history museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":0,
-            "end":14,
-            "value":"history museums",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "national history museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":0,
-            "end":23,
-            "value":"national history museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "tell me what history museums are around me",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":33,
-            "end":42,
-            "value":"around me",
-            "entity":"location"
-          },
-          {
-            "start":13,
-            "end":28,
-            "value":"history museums",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "where can i learn about the history of this place",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":39,
-            "end":49,
-            "value":"this place",
-            "entity":"location"
-          }
-        ]
-      },
-      {
-        "text": "show me all science museums in london",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":31,
-            "end":37,
-            "value":"london",
-            "entity":"location"
-          },
-          {
-            "start":12,
-            "end":27,
-            "value":"science museums",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i want to visit a museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":18,
-            "end":24,
-            "value":"museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i want to see a museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":16,
-            "end":22,
-            "value":"museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i want to go to a museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":18,
-            "end":24,
-            "value":"museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me all museums",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":12,
-            "end":19,
-            "value":"museums",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "British national science museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":0,
-            "end":31,
-            "value":"British national science museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "natural science museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":0,
-            "end":22,
-            "value":"natural science museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "coffee shop",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":0,
-            "end":6,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i want to go to a coffee shop",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":18,
-            "end":24,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "whats the best coffee shop",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":15,
-            "end":21,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "museum",
-        "intent": "museum",
-        "entities": [
-          {
-            "start":0,
-            "end":6,
-            "value":"museum",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "coffee",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":0,
-            "end":6,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "bar",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":0,
-            "end":3,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i wanna go to a bar",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":16,
-            "end":19,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me all bars",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":13,
-            "end":16,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i want to go to a bar",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":19,
-            "end":21,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "i wanna visit a bar",
-        "intent": "bar",
-        "entities": [
-          {
-            "start":16,
-            "end":19,
-            "value":"bar",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "where can I get a cup of coffee in bristol",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":35,
-            "end":42,
-            "value":"bristol",
-            "entity":"location"
-          },
-          {
-            "start":25,
-            "end":31,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me all coffee shops in the city center",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":32,
-            "end":43,
-            "value":"city center",
-            "entity":"location"
-          },
-          {
-            "start":12,
-            "end":18,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "show me all coffee shops on Main street",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":28,
-            "end":39,
-            "value":"Main street",
-            "entity":"location"
-          },
-          {
-            "start":12,
-            "end":18,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "best tea and coffee in town",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":13,
-            "end":19,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "I am looking for a coffee shop in London",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":34,
-            "end":40,
-            "value":"London",
-            "entity":"location"
-          },
-          {
-            "start":19,
-            "end":25,
-            "value":"coffee",
-            "entity":"interest"
-          }
-        ]
-      },
-      {
-        "text": "coffee shops near me",
-        "intent": "coffee",
-        "entities": [
-          {
-            "start":13,
-            "end":20,
-            "value":"near me",
-            "entity":"location"
-          },
-          {
-            "start":0,
-            "end":6,
-            "value":"coffee",
-            "entity":"interest"
-          }
         ]
       },
       {
@@ -692,7 +236,38 @@
         ]
       },
       {
-        "text": "I'll be in Veliko Turnovo on May the 2nd show me all bars",
+        "text": "Hey, I'll be in Vienna for 3 days starting 28-th of June. I need place for 3 adults and single rooms",
+        "intent": "visit",
+        "entities": [
+          {
+            "start":16,
+            "end":22,
+            "value":"Vienna",
+            "entity":"location"
+          },
+          {
+            "start":43,
+            "end":56,
+            "value":"28-th of June",
+            "entity":"DATE"
+          },
+          {
+            "start":88,
+            "end":100,
+            "value":"single rooms",
+            "entity":"countable"
+          },
+          {
+            "start":27,
+            "end":28,
+            "value":"3",
+            "entity":"CARDINAL"
+          }
+          
+        ]
+      },      
+      {
+        "text": "I'll be in Veliko Turnovo on May the 2nd",
         "intent": "visit",
         "entities": [
           {
@@ -706,17 +281,11 @@
             "end":40,
             "value":"May the 2nd",
             "entity":"DATE"
-          },
-          {
-            "start":53,
-            "end":57,
-            "value":"bars",
-            "entity":"interest"
           }
         ]
       },
       {
-        "text": "I'll be visiting Veliko Turnovo on June the 5th show me all museums",
+        "text": "I'll be visiting Veliko Turnovo on June the 5th",
         "intent": "visit",
         "entities": [
           {
@@ -730,17 +299,11 @@
             "end":47,
             "value":"June the 5th",
             "entity":"DATE"
-          },
-          {
-            "start":60,
-            "end":67,
-            "value":"museums",
-            "entity":"interest"
           }
         ]
       },
       {
-        "text": "I'll be visiting veliko turnovo in 5 days show me all museums",
+        "text": "I'll be visiting veliko turnovo in 5 days",
         "intent": "visit",
         "entities": [
           {
@@ -754,12 +317,6 @@
             "end":41,
             "value":"5 days",
             "entity":"DATE"
-          },
-          {
-            "start":54,
-            "end":61,
-            "value":"museums",
-            "entity":"interest"
           }
         ]
       },
@@ -804,7 +361,7 @@
         }]
       },
       {
-      "text": "I wanna see venice in february show me all museums",
+      "text": "I wanna see venice in february",
       "intent": "visit",
       "entities": [
         {
@@ -818,17 +375,11 @@
           "end":30,
           "value":"february",
           "entity":"DATE"
-        },
-        {
-          "start":43,
-          "end":50,
-          "value":"museums",
-          "entity":"interest"
         }
       ]
     },
     {
-      "text": "I wanna see venice in the summer show me all museums",
+      "text": "I wanna see venice in the summer",
       "intent": "visit",
       "entities": [
         {
@@ -842,12 +393,6 @@
           "end":32,
           "value":"the summer",
           "entity":"DATE"
-        },
-        {
-          "start":43,
-          "end":50,
-          "value":"museums",
-          "entity":"interest"
         }
       ]
     },
@@ -884,46 +429,6 @@
       {
         "text": "enough",
         "intent": "end",
-        "entities": []
-      },
-      {
-        "text": "bye",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "goodbye",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "good bye",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "stop",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "end",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "farewell",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "Bye bye",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "have a good one",
-        "intent": "goodbye",
         "entities": []
       },
       {        "text": "I want to book a hotel", "intent": "book_hotel" },

@@ -34,6 +34,9 @@ class DialogNlp:
             return "back", {}
         elif lstr == "start over":
             return "reset_all", {}
+        elif lstr in ["single", "double", "triple"]:
+            return "countable", {}
+        
 
         # print(intent_data)
         intent = intent_data['intent']['name']
