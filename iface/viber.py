@@ -91,7 +91,7 @@ class Viber(ChatIface):
             r = listify(r)
             logging.info("Processed message: , %s", is_done)
             # Send replies
-            if is_done and r is not None:
+            if is_done and r is not None and len(r)>0:
                 r[len(r)-1].buttons = [self.initial_button_text]
             self.send_replies(user_id, r)
         except Exception as ex:
@@ -249,7 +249,7 @@ class Viber(ChatIface):
         }, {
             "Columns": 2,
             "Rows": 2,
-            "Text": "<font color=\"#494E67\">Reject</font>",
+            "Text": "<font color=\"#494E67\">Next</font>",
             "TextSize": "medium",
             "TextHAlign": "center",
             "TextVAlign": "middle",

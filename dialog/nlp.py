@@ -49,8 +49,8 @@ class DialogNlp:
         intent_data = interpreter.parse(text)
         lstr = str(text).strip().lower()
         datex = dateparser.parse(lstr)
-        if datex is not None:
-            return 'date', {'DATE': lstr}
+        # if datex is not None:
+        #     return 'date', {'DATE': lstr}
         if lstr=="back":
             return "back", {}
         elif lstr == "start over":
