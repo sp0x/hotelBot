@@ -64,6 +64,10 @@ class DialogNlp:
         elif intent in self.interest_intents:  # Handle interests without entities
             if len(entities) == 0:
                 entities['interest'] = [intent]
+        ekeys = entities.keys()
+        # Stop recognizing things like `In a week` as goodbye
+        if intent == 'goodbye' and 'DATE' in ekeys:
+            intent = 'date'
 
         return intent, entities
 

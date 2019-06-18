@@ -4,6 +4,7 @@ import random
 import numpy as np
 import logging
 import dateparser
+
 logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
                     datefmt='%Y-%m-%d:%H:%M:%S',
                     level=logging.DEBUG)
@@ -183,7 +184,9 @@ class DialogFlow:
         return recs
 
     def create_itinerary(self):
-        first_city = self.form['city']
+        first_city = self.form['city'] if 'city' in self.form else None
+        if first_city is None:
+            return None
         if isinstance(first_city, list): first_city = first_city[0]
         city = first_city.capitalize()
         date = self.form['date']
@@ -320,8 +323,8 @@ class DialogFlow:
         if self.is_done():
             return reply, matched_boxes
 
-        #logging.info("Boxes left: ")
-        #for b in boxes: logging.info(b)
+        # logging.info("Boxes left: ")
+        # for b in boxes: logging.info(b)
 
         for b in boxes:
             # logging.info("Non finished boxes: %s", b)
@@ -627,7 +630,7 @@ def create_booking_link(search_term, form):
         'city': city,
         'lang': 'en-gb',
 
-        #'dest_type': 'city'
+        # 'dest_type': 'city'
     }
     querystring = urlencode(query_params, doseq=True)
     url_base += querystring
