@@ -7,6 +7,7 @@ from rasa_nlu import config
 import logging
 import api
 import os
+from dateutil.parser import parse
 
 logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -35,6 +36,13 @@ class DialogNlp:
                 ok = False
         return ok
 
+    def is_date(self, t):
+        try: 
+            parse(t, fuzzy=True)
+            return True
+        except ValueError:
+            return False
+
     def parse_intent(self, text):
         import dateparser
         intent_data = interpreter.parse(text)
@@ -62,6 +70,8 @@ class DialogNlp:
             m = entities.get(e['entity'], [])
             m.append(e['value'])
             entities[e['entity']] = m
+        if self.is_date(text):
+            entities['DATE'] = text
         # if intent not in ['affirm', 'greet', 'reject', 'goodbye', 'end', 'change_form']:
         #     entities[intent] = intent
 
