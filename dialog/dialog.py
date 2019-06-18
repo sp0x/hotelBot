@@ -489,8 +489,7 @@ class DialogFlow:
                     self.form['selected_items'] = items
                     self.__affirm_suggestion(box)
                 self.boxes[self.index].finish(intent)
-                logging.info("Finished box: %s", self.boxes[self.index])
-                replies.extend(self.next())
+
                 if intent == 'affirm' and self.end_on_affirm:
                     self.reset()
                     return True, replies
@@ -500,10 +499,8 @@ class DialogFlow:
         elif intent in self.interest_intents:
             replies = self.set_intent(intent, ents)
 
-        # Intent to update the form
         # if intent == 'change_form' and ents:
         #     replies = [self.edit_form(ents)]
-
         # 2.4 check if intent matches current box
         current_box_validated, reply, matches = box.validate_answer(intent, ents)
         current_matched_boxes = []
