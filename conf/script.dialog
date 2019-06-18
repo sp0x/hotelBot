@@ -21,9 +21,9 @@
             "intent":["visit"]
         },
         {
-            "question":"Checking for hotels in {city}. What is the beginning date for the booking?",
+            "question":"Checking for hotels in {city}. What is the start date for the booking?",
             "accepted":"",
-            "rejected":"Sorry, I couldn't catch the date. Please, try again. Use a format like \"5th of July\".",
+            "rejected":"Sorry, I couldn't catch the date. Please, try again. Use a format like "5th of July".",
             "attribute":"date",
             "entities":"DATE",
             "buttons": ["Back"]
