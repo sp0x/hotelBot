@@ -36,6 +36,8 @@ class DialogFlow:
         self.autoreset_on_done = True
         self.initial_suggestion_count = 8
         self.end_on_affirm = True
+        # An intent that the bot hinted to the user, which he can affirm or reject.
+        self.intent_hint = None
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)
@@ -46,6 +48,7 @@ class DialogFlow:
         self.last_affirmed_place = None
         self.last_interest = None
         self.initialized_suggestions = False
+        self.intent_hint = None
         logging.info("Reset dialog.")
 
     def go_back(self):
@@ -191,6 +194,7 @@ class DialogFlow:
         selected_boxes = self.form[self.suggestion_box_attr] if self.suggestion_box_attr in self.form else []
         if len(selected_boxes) == 0:
             bad_list_rep = Reply(None, 'text', "You didn't pick anything. We can start over if you want.")
+            self.intent_hint = 'reset_all'
             return bad_list_rep
 
         locations = []
@@ -459,6 +463,10 @@ class DialogFlow:
                 logging.info("Terminating")
                 replies = self.terminate()
                 return True, replies
+            elif self.intent_hint == 'reset_all' and intent == 'affirm':
+                self.reset()
+                replies = self.next()
+                return False, replies
             elif self.terminating and intent == "reject":
                 self.terminating = False
                 return False, self.terminate()  # [format_box_question(self.box, self.form)]
@@ -520,6 +528,8 @@ class DialogFlow:
 
         if len(replies) == 0:
             replies = [msg_reply("I can't answer that. Do you want to start over? If so just say `stop`.")]
+            self.intent_hint = 'reset_all'
+
         logging.info("Resulting replies: %s", replies[0])
 
         if not initial_has_suggestions and self.has_suggestions() and self.callback_on_search_done is not None:
