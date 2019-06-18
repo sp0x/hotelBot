@@ -35,6 +35,7 @@ class DialogFlow:
         self.suggestion_box_attr = "selected_items"
         self.autoreset_on_done = True
         self.initial_suggestion_count = 8
+        self.end_on_affirm = True
 
     def reset(self):
         self.opener, self.closer, self.boxes = self.__build_flow__(self.script)
@@ -470,8 +471,12 @@ class DialogFlow:
                 self.boxes[self.index].finish(intent)
                 logging.info("Finished box: %s", self.boxes[self.index])
                 replies.extend(self.next())
-                # elif len(replies)==0:
-                return self.is_done(), replies  # msg_replies(replies)
+                if intent == 'affirm' and self.end_on_affirm:
+                    self.reset()
+                    return True, replies
+                else:
+                    # elif len(replies)==0:
+                    return self.is_done(), replies  # msg_replies(replies)
         elif intent in self.interest_intents:
             replies = self.set_intent(intent, ents)
 
