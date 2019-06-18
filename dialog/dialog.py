@@ -215,9 +215,9 @@ class DialogFlow:
             })
 
         if date.lower() == 'tomorrow':
-            text = 'Your trip to {0} Tomorrow will include the following place: '.format(city)
+            text = 'The hotel you chose for your trip to %s is'.format(city)
         else:
-            text = 'Your trip to {0} on {1} will include the following place: '.format(city, date)
+            text = 'The hotel you chose for your trip to %s is '.format(city, date)
         text += booking_url + " \nMap: " + place_url + ""
         rep = Reply(None, 'place_list', text)
         rep.data = locations
@@ -620,12 +620,15 @@ def create_booking_link(search_term, form):
     :return:
     """
     from urllib.parse import urlencode, parse_qs, urlsplit, urlunsplit
+    from datetime import datetime
     url_base = "https://www.booking.com/searchresults.en-gb.html?"
     guest_count = form['guest_count'] if 'guest_count' in form else 1
     child_count = form['child_count'] if 'child_count' in form else 0
     city = form['city'] if 'city' in form else ''
     logging.info("Creating booking link from form: %s", form)
     date = dateparser.parse(form['date'])
+    if date is None:
+        date = datetime.now()
     query_params = {
         'ss': search_term,
         'sb': 1,

@@ -133,7 +133,7 @@ def format_places(places, exclusions):
         photos = place.photos[:nphotos]
         imgs = []
         for p in photos:
-            photo_url = _get_photo_url(p, 600, 600)
+            photo_url = _get_photo_url(p, 400, 400)
             imgs.append({
                 'fetcher': __fetch_photo,
                 'obj': p,

@@ -60,7 +60,7 @@ class Viber(ChatIface):
         self.thread.start()
         self.api = Api(self.bot_configuration)
         logging.info("Setting viber hook to: %s", self.web_url)
-        evtypes = self.api.set_webhook(self.web_url)
+        evtypes = self.api.set_webhook(self.web_url, webhook_events=['conversation_started', 'message'])
         viber_account = self.api.get_account_info()
         logging.info("Registered ev types: %s", evtypes)
         logging.info("Account info: %s", viber_account)
@@ -91,7 +91,7 @@ class Viber(ChatIface):
             # Process the message
             is_done, rz = self.process_message(user_id, message)
             r = [rx for rx in listify(rz) if rx is not None]
-            logging.info("Processed message: %s, %s, %s", r, is_done, rz)
+
             # Send replies
             if is_done and r is not None and len(r) > 0:
                 last_response = r[len(r) - 1]
@@ -128,7 +128,7 @@ class Viber(ChatIface):
         k = None
         if keyboard is not None:
             k = keyboard._keyboard
-        pmsg = PictureMessage(text=rep.text, media=img_url, tracking_data=user_id, keyboard=k)
+        pmsg = PictureMessage(text=rep.text, media=img_url, keyboard=k, thumbnail=img_url)
         viber.send_messages(user_id, [pmsg])
 
     def send_keyboard(self, user_id, keyboard):
@@ -209,7 +209,7 @@ class Viber(ChatIface):
                 if isinstance(message, TextMessage):
                     ts = int(request_dict['timestamp'])
                     is_old = (self.last_message is not None and
-                              (self.last_message[2] == ts or self.last_message[0] == message.text) and
+                              (self.last_message[2] == ts) and
                               self.last_message[1] == sender_id)
                     cr_pair = (message.text, sender_id, ts)
                     # logging.info("MSG DUMP: %s", cr_pair)

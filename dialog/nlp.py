@@ -97,8 +97,8 @@ class DialogNlp:
 
     def present_already(self, msg):
         lower = msg.lower()
-        return (("here" in lower) and "already" in lower) or \
-               ("there" in lower and "now" in lower)
+        return ((" here " in lower) and " already " in lower) or \
+               (" there " in lower and " now " in lower)
 
 
 def flatten(f):
