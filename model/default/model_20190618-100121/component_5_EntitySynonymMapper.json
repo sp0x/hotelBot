@@ -1,0 +1,21 @@
+{
+  "place to stay": "hotel",
+  "booking": "hotel",
+  "sleep": "hotel",
+  "pub": "bar",
+  "place to drink": "bar",
+  "drink": "bar",
+  "double": "double",
+  "single": "single",
+  "triple": "triple",
+  "in a week": "next week",
+  "next week": "next week",
+  "a week ago": "previous week",
+  "after a week": "next week",
+  "current week": "this week",
+  "last week": "previous week",
+  "in one week": "next week",
+  "in two weeks": "after 2 weeks",
+  "in 1 weeks": "next week",
+  "in 2 weeks": "after 2 weeks"
+}

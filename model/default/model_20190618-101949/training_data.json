@@ -1,0 +1,776 @@
+{
+  "rasa_nlu_data": {
+    "common_examples": [
+      {
+        "intent": "greet",
+        "text": "hey"
+      },
+      {
+        "intent": "greet",
+        "text": "howdy"
+      },
+      {
+        "intent": "greet",
+        "text": "hey there"
+      },
+      {
+        "intent": "greet",
+        "text": "hello"
+      },
+      {
+        "intent": "greet",
+        "text": "hi"
+      },
+      {
+        "intent": "greet",
+        "text": "good morning"
+      },
+      {
+        "intent": "greet",
+        "text": "good evening"
+      },
+      {
+        "intent": "greet",
+        "text": "dear sir"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes"
+      },
+      {
+        "intent": "affirm",
+        "text": "yep"
+      },
+      {
+        "intent": "affirm",
+        "text": "yeah"
+      },
+      {
+        "intent": "affirm",
+        "text": "indeed"
+      },
+      {
+        "intent": "affirm",
+        "text": "that's right"
+      },
+      {
+        "intent": "affirm",
+        "text": "ok"
+      },
+      {
+        "intent": "affirm",
+        "text": "great"
+      },
+      {
+        "intent": "affirm",
+        "text": "right, thank you"
+      },
+      {
+        "intent": "affirm",
+        "text": "correct"
+      },
+      {
+        "intent": "affirm",
+        "text": "great choice"
+      },
+      {
+        "intent": "affirm",
+        "text": "sounds really good"
+      },
+      {
+        "intent": "affirm",
+        "text": "of course"
+      },
+      {
+        "intent": "affirm",
+        "text": ":)"
+      },
+      {
+        "intent": "affirm",
+        "text": "far out"
+      },
+      {
+        "intent": "affirm",
+        "text": "true"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes i like that"
+      },
+      {
+        "intent": "affirm",
+        "text": "I like that"
+      },
+      {
+        "intent": "affirm",
+        "text": "Yep that's great"
+      },
+      {
+        "intent": "affirm",
+        "text": "yeahhhh"
+      },
+      {
+        "intent": "affirm",
+        "text": "sure"
+      },
+      {
+        "intent": "affirm",
+        "text": "probably"
+      },
+      {
+        "intent": "affirm",
+        "text": "most likely"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes I do"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes I am"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes that"
+      },
+      {
+        "intent": "reject",
+        "text": "no thanks"
+      },
+      {
+        "intent": "reject",
+        "text": "no"
+      },
+      {
+        "intent": "reject",
+        "text": "no thank you"
+      },
+      {
+        "intent": "reject",
+        "text": "nope"
+      },
+      {
+        "intent": "reject",
+        "text": "nah"
+      },
+      {
+        "intent": "reject",
+        "text": "cancel"
+      },
+      {
+        "intent": "reject",
+        "text": "I don't like that"
+      },
+      {
+        "intent": "reject",
+        "text": "hell no"
+      },
+      {
+        "intent": "reject",
+        "text": "nopers"
+      },
+      {
+        "intent": "reject",
+        "text": ":("
+      },
+      {
+        "intent": "reject",
+        "text": "wrong"
+      },
+      {
+        "intent": "reject",
+        "text": "that's wrong"
+      },
+      {
+        "intent": "reject",
+        "text": "i don't want that"
+      },
+      {
+        "intent": "reject",
+        "text": "i'm not interested"
+      },
+      {
+        "intent": "reject",
+        "text": "not interested"
+      },
+      {
+        "intent": "reject",
+        "text": "that's bad"
+      },
+      {
+        "intent": "reject",
+        "text": "not that"
+      },
+      {
+        "intent": "reject",
+        "text": "no I'm not"
+      },
+      {
+        "intent": "reject",
+        "text": "not"
+      },
+      {
+        "intent": "reset_all",
+        "text": "start over"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "double",
+            "entity": "countable"
+          }
+        ],
+        "text": "Double rooms"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "single",
+            "entity": "countable"
+          }
+        ],
+        "text": "Single rooms"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "single",
+            "entity": "countable"
+          }
+        ],
+        "text": "Single room"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "triple",
+            "entity": "countable"
+          }
+        ],
+        "text": "Triple rooms"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 18,
+            "value": "Varna",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm going to Varna"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 18,
+            "end": 23,
+            "value": "Sofia",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm want to visit Sofia"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 20,
+            "value": "Plovdiv",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm visiting Plovdiv"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 16,
+            "end": 20,
+            "value": "Ruse",
+            "entity": "location"
+          }
+        ],
+        "text": "I want to visit Ruse"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "Yambol",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm visiting Yambol"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 23,
+            "value": "Yambol",
+            "entity": "location"
+          }
+        ],
+        "text": "I'll be visiting Yambol"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 16,
+            "end": 23,
+            "value": "Hamburg",
+            "entity": "location"
+          }
+        ],
+        "text": "I want to go to Hamburg"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 20,
+            "end": 26,
+            "value": "Burgas",
+            "entity": "location"
+          }
+        ],
+        "text": "I want to travel to Burgas"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 23,
+            "value": "Burgas",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm traveling to Burgas"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 23,
+            "end": 29,
+            "value": "Burgas",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm going to travel to Burgas"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "London",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm going to London"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 9,
+            "value": "next week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "In a week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 9,
+            "value": "next week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "Next week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 9,
+            "value": "this week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "this week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 11,
+            "value": "previous week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "A week ago"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 12,
+            "value": "2 weeks ago",
+            "entity": "DATE"
+          }
+        ],
+        "text": "2 weeks ago"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 13,
+            "value": "next week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "After a week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 13,
+            "value": "this week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "Current week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 9,
+            "value": "previous week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "Last week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 12,
+            "value": "next week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "In one week"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 13,
+            "value": "after 2 weeks",
+            "entity": "DATE"
+          }
+        ],
+        "text": "In two weeks"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 10,
+            "value": "next week",
+            "entity": "DATE"
+          }
+        ],
+        "text": "In 1 weeks"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 10,
+            "value": "after 2 weeks",
+            "entity": "DATE"
+          }
+        ],
+        "text": "In 2 weeks"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 16,
+            "end": 22,
+            "value": "Vienna",
+            "entity": "location"
+          },
+          {
+            "start": 43,
+            "end": 56,
+            "value": "28-th of June",
+            "entity": "DATE"
+          },
+          {
+            "start": 88,
+            "end": 100,
+            "value": "single rooms",
+            "entity": "countable"
+          },
+          {
+            "start": 27,
+            "end": 28,
+            "value": "3",
+            "entity": "CARDINAL"
+          }
+        ],
+        "text": "Hey, I'll be in Vienna for 3 days starting 28-th of June. I need place for 3 adults and single rooms"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 11,
+            "end": 25,
+            "value": "Veliko Turnovo",
+            "entity": "location"
+          },
+          {
+            "start": 29,
+            "end": 40,
+            "value": "May the 2nd",
+            "entity": "DATE"
+          }
+        ],
+        "text": "I'll be in Veliko Turnovo on May the 2nd"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 31,
+            "value": "Veliko Turnovo",
+            "entity": "location"
+          },
+          {
+            "start": 35,
+            "end": 47,
+            "value": "June the 5th",
+            "entity": "DATE"
+          }
+        ],
+        "text": "I'll be visiting Veliko Turnovo on June the 5th"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 31,
+            "value": "veliko turnovo",
+            "entity": "location"
+          },
+          {
+            "start": 35,
+            "end": 41,
+            "value": "5 days",
+            "entity": "DATE"
+          }
+        ],
+        "text": "I'll be visiting veliko turnovo in 5 days"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 8,
+            "value": "Tomorrow",
+            "entity": "DATE"
+          }
+        ],
+        "text": "Tomorrow"
+      },
+      {
+        "intent": "countable",
+        "text": "double"
+      },
+      {
+        "intent": "countable",
+        "text": "single"
+      },
+      {
+        "intent": "countable",
+        "text": "triple"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 12,
+            "end": 18,
+            "value": "venice",
+            "entity": "location"
+          },
+          {
+            "start": 22,
+            "end": 30,
+            "value": "february",
+            "entity": "DATE"
+          }
+        ],
+        "text": "I wanna see venice in february"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 12,
+            "end": 18,
+            "value": "venice",
+            "entity": "location"
+          },
+          {
+            "start": 22,
+            "end": 32,
+            "value": "the summer",
+            "entity": "DATE"
+          }
+        ],
+        "text": "I wanna see venice in the summer"
+      },
+      {
+        "intent": "end",
+        "text": "I'm done"
+      },
+      {
+        "intent": "end",
+        "text": "no more"
+      },
+      {
+        "intent": "end",
+        "text": "no more suggestions"
+      },
+      {
+        "intent": "end",
+        "text": "stop"
+      },
+      {
+        "intent": "end",
+        "text": "don't show me anymore suggestions"
+      },
+      {
+        "intent": "end",
+        "text": "that's enough"
+      },
+      {
+        "intent": "end",
+        "text": "enough"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "I want to book a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "book a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "I'm looking for a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "Want a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "I want a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "Book me a hotel"
+      }
+    ],
+    "regex_features": [
+      {
+        "name": "greet",
+        "pattern": "hey[^\\s]*"
+      }
+    ],
+    "lookup_tables": [
+      {
+        "name": "location",
+        "elements": "./data/cities.txt"
+      },
+      {
+        "name": "countable",
+        "elements": "./data/countables.txt"
+      }
+    ],
+    "entity_synonyms": [
+      {
+        "value": "hotel",
+        "synonyms": [
+          "place to stay",
+          "booking",
+          "sleep"
+        ]
+      },
+      {
+        "value": "bar",
+        "synonyms": [
+          "pub",
+          "place to drink",
+          "drink"
+        ]
+      }
+    ]
+  }
+}

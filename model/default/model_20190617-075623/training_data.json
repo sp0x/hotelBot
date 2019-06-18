@@ -1,0 +1,1401 @@
+{
+  "rasa_nlu_data": {
+    "common_examples": [
+      {
+        "intent": "greet",
+        "text": "hey"
+      },
+      {
+        "intent": "greet",
+        "text": "howdy"
+      },
+      {
+        "intent": "greet",
+        "text": "hey there"
+      },
+      {
+        "intent": "greet",
+        "text": "hello"
+      },
+      {
+        "intent": "greet",
+        "text": "hi"
+      },
+      {
+        "intent": "greet",
+        "text": "good morning"
+      },
+      {
+        "intent": "greet",
+        "text": "good evening"
+      },
+      {
+        "intent": "greet",
+        "text": "dear sir"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes"
+      },
+      {
+        "intent": "affirm",
+        "text": "yep"
+      },
+      {
+        "intent": "affirm",
+        "text": "yeah"
+      },
+      {
+        "intent": "affirm",
+        "text": "indeed"
+      },
+      {
+        "intent": "affirm",
+        "text": "that's right"
+      },
+      {
+        "intent": "affirm",
+        "text": "ok"
+      },
+      {
+        "intent": "affirm",
+        "text": "great"
+      },
+      {
+        "intent": "affirm",
+        "text": "right, thank you"
+      },
+      {
+        "intent": "affirm",
+        "text": "correct"
+      },
+      {
+        "intent": "affirm",
+        "text": "great choice"
+      },
+      {
+        "intent": "affirm",
+        "text": "sounds really good"
+      },
+      {
+        "intent": "affirm",
+        "text": "of course"
+      },
+      {
+        "intent": "affirm",
+        "text": ":)"
+      },
+      {
+        "intent": "affirm",
+        "text": "far out"
+      },
+      {
+        "intent": "affirm",
+        "text": "true"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes i like that"
+      },
+      {
+        "intent": "affirm",
+        "text": "I like that"
+      },
+      {
+        "intent": "affirm",
+        "text": "Yep that's great"
+      },
+      {
+        "intent": "affirm",
+        "text": "yeahhhh"
+      },
+      {
+        "intent": "affirm",
+        "text": "sure"
+      },
+      {
+        "intent": "affirm",
+        "text": "probably"
+      },
+      {
+        "intent": "affirm",
+        "text": "most likely"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes I do"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes I am"
+      },
+      {
+        "intent": "affirm",
+        "text": "yes that"
+      },
+      {
+        "intent": "reject",
+        "text": "no thanks"
+      },
+      {
+        "intent": "reject",
+        "text": "no"
+      },
+      {
+        "intent": "reject",
+        "text": "no thank you"
+      },
+      {
+        "intent": "reject",
+        "text": "nope"
+      },
+      {
+        "intent": "reject",
+        "text": "nah"
+      },
+      {
+        "intent": "reject",
+        "text": "cancel"
+      },
+      {
+        "intent": "reject",
+        "text": "I don't like that"
+      },
+      {
+        "intent": "reject",
+        "text": "hell no"
+      },
+      {
+        "intent": "reject",
+        "text": "nopers"
+      },
+      {
+        "intent": "reject",
+        "text": ":("
+      },
+      {
+        "intent": "reject",
+        "text": "wrong"
+      },
+      {
+        "intent": "reject",
+        "text": "that's wrong"
+      },
+      {
+        "intent": "reject",
+        "text": "i don't want that"
+      },
+      {
+        "intent": "reject",
+        "text": "i'm not interested"
+      },
+      {
+        "intent": "reject",
+        "text": "not interested"
+      },
+      {
+        "intent": "reject",
+        "text": "that's bad"
+      },
+      {
+        "intent": "reject",
+        "text": "not that"
+      },
+      {
+        "intent": "reject",
+        "text": "no I'm not"
+      },
+      {
+        "intent": "reject",
+        "text": "not"
+      },
+      {
+        "intent": "restaurant",
+        "text": "i'm looking for a place to eat"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "double",
+            "entity": "countable"
+          }
+        ],
+        "text": "Double rooms"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "single",
+            "entity": "countable"
+          }
+        ],
+        "text": "Single rooms"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "single",
+            "entity": "countable"
+          }
+        ],
+        "text": "Single room"
+      },
+      {
+        "intent": "countable",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "triple",
+            "entity": "countable"
+          }
+        ],
+        "text": "Triple rooms"
+      },
+      {
+        "intent": "fly_from",
+        "entities": [
+          {
+            "start": 16,
+            "end": 22,
+            "value": "london",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm flying from London"
+      },
+      {
+        "intent": "fly_from",
+        "entities": [
+          {
+            "start": 15,
+            "end": 21,
+            "value": "london",
+            "entity": "location"
+          }
+        ],
+        "text": "departing from London"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 19,
+            "end": 29,
+            "value": "manchester",
+            "entity": "location"
+          }
+        ],
+        "text": "where can I eat in manchester"
+      },
+      {
+        "intent": "restaurant",
+        "text": "I want to grab lunch"
+      },
+      {
+        "intent": "restaurant",
+        "text": "I want to eat"
+      },
+      {
+        "intent": "bar",
+        "text": "I want to drink"
+      },
+      {
+        "intent": "restaurant",
+        "text": "I am searching for a dinner spot"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 31,
+            "end": 36,
+            "value": "north",
+            "entity": "location"
+          }
+        ],
+        "text": "i'm looking for a place in the north of town"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 8,
+            "end": 15,
+            "value": "chinese",
+            "entity": "cuisine"
+          },
+          {
+            "start": 8,
+            "end": 27,
+            "value": "restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me chinese restaurants"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 8,
+            "end": 14,
+            "value": "chinese",
+            "entity": "cuisine"
+          },
+          {
+            "start": 34,
+            "end": 39,
+            "value": "north",
+            "entity": "location"
+          },
+          {
+            "start": 8,
+            "end": 18,
+            "value": "chines restaurants",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me chines restaurants in the north"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 31,
+            "end": 37,
+            "value": "centre",
+            "entity": "location"
+          },
+          {
+            "start": 10,
+            "end": 17,
+            "value": "mexican",
+            "entity": "cuisine"
+          }
+        ],
+        "text": "show me a mexican place in the centre"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 20,
+            "end": 26,
+            "value": "indian",
+            "entity": "cuisine"
+          }
+        ],
+        "text": "i am looking for an indian spot called olaolaolaolaolaola"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 11,
+            "end": 21,
+            "value": "restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "search for restaurants"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 0,
+            "end": 11,
+            "value": "restaurants",
+            "entity": "interest"
+          }
+        ],
+        "text": "restaurants"
+      },
+      {
+        "intent": "restaurant",
+        "text": "food"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 17,
+            "end": 29,
+            "value": "asian fusion",
+            "entity": "cuisine"
+          }
+        ],
+        "text": "I am looking for asian fusion food"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 29,
+            "end": 34,
+            "value": "29432",
+            "entity": "location"
+          },
+          {
+            "start": 15,
+            "end": 25,
+            "value": "restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "I am looking a restaurant in 29432"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 17,
+            "end": 38,
+            "value": "mexican indian fusion",
+            "entity": "cuisine"
+          }
+        ],
+        "text": "I am looking for mexican indian fusion"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 0,
+            "end": 7,
+            "value": "central",
+            "entity": "location"
+          },
+          {
+            "start": 8,
+            "end": 14,
+            "value": "indian",
+            "entity": "cuisine"
+          },
+          {
+            "start": 8,
+            "end": 25,
+            "value": "indian restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "central indian restaurant"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 18,
+            "end": 21,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "I'm looking for a bar"
+      },
+      {
+        "intent": "bar",
+        "text": "I'm looking for a place to drink"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 22,
+            "end": 29,
+            "value": "near me",
+            "entity": "location"
+          },
+          {
+            "start": 18,
+            "end": 21,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "I'm looking for a bar near me"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 24,
+            "end": 32,
+            "value": "New York",
+            "entity": "location"
+          },
+          {
+            "start": 16,
+            "end": 20,
+            "value": "bars",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me all the bars in New York"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 0,
+            "end": 10,
+            "value": "local bars",
+            "entity": "interest"
+          }
+        ],
+        "text": "local bars"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 0,
+            "end": 14,
+            "value": "history museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "history museum"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 0,
+            "end": 23,
+            "value": "national history museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "national history museum"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 33,
+            "end": 42,
+            "value": "around me",
+            "entity": "location"
+          },
+          {
+            "start": 13,
+            "end": 28,
+            "value": "history museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "tell me what history museums are around me"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 39,
+            "end": 49,
+            "value": "this place",
+            "entity": "location"
+          }
+        ],
+        "text": "where can i learn about the history of this place"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 31,
+            "end": 37,
+            "value": "london",
+            "entity": "location"
+          },
+          {
+            "start": 12,
+            "end": 27,
+            "value": "science museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me all science museums in london"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 18,
+            "end": 24,
+            "value": "museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "i want to visit a museum"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 16,
+            "end": 22,
+            "value": "museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "i want to see a museum"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 18,
+            "end": 24,
+            "value": "museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "i want to go to a museum"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 12,
+            "end": 19,
+            "value": "museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me all museums"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 0,
+            "end": 31,
+            "value": "British national science museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "British national science museum"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 0,
+            "end": 22,
+            "value": "natural science museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "natural science museum"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "coffee shop"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 18,
+            "end": 28,
+            "value": "restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "i want to go to a restaurant"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 15,
+            "end": 25,
+            "value": "restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "whats the best restaurant"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 18,
+            "end": 24,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "i want to go to a coffee shop"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 15,
+            "end": 21,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "whats the best coffee shop"
+      },
+      {
+        "intent": "restaurant",
+        "entities": [
+          {
+            "start": 0,
+            "end": 10,
+            "value": "restaurant",
+            "entity": "interest"
+          }
+        ],
+        "text": "restaurant"
+      },
+      {
+        "intent": "museum",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "museum",
+            "entity": "interest"
+          }
+        ],
+        "text": "museum"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 0,
+            "end": 6,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "coffee"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 0,
+            "end": 3,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "bar"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 16,
+            "end": 19,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "i wanna go to a bar"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 13,
+            "end": 16,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me all bars"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 19,
+            "end": 21,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "i want to go to a bar"
+      },
+      {
+        "intent": "bar",
+        "entities": [
+          {
+            "start": 16,
+            "end": 19,
+            "value": "bar",
+            "entity": "interest"
+          }
+        ],
+        "text": "i wanna visit a bar"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 35,
+            "end": 42,
+            "value": "bristol",
+            "entity": "location"
+          },
+          {
+            "start": 25,
+            "end": 31,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "where can I get a cup of coffee in bristol"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 32,
+            "end": 43,
+            "value": "city center",
+            "entity": "location"
+          },
+          {
+            "start": 12,
+            "end": 18,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me all coffee shops in the city center"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 28,
+            "end": 39,
+            "value": "Main street",
+            "entity": "location"
+          },
+          {
+            "start": 12,
+            "end": 18,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "show me all coffee shops on Main street"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "best tea and coffee in town"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 34,
+            "end": 40,
+            "value": "London",
+            "entity": "location"
+          },
+          {
+            "start": 19,
+            "end": 25,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "I am looking for a coffee shop in London"
+      },
+      {
+        "intent": "coffee",
+        "entities": [
+          {
+            "start": 13,
+            "end": 20,
+            "value": "near me",
+            "entity": "location"
+          },
+          {
+            "start": 0,
+            "end": 6,
+            "value": "coffee",
+            "entity": "interest"
+          }
+        ],
+        "text": "coffee shops near me"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 18,
+            "value": "Varna",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm going to Varna"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 18,
+            "end": 23,
+            "value": "Sofia",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm want to visit Sofia"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 20,
+            "value": "Plovdiv",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm visiting Plovdiv"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 16,
+            "end": 20,
+            "value": "Ruse",
+            "entity": "location"
+          }
+        ],
+        "text": "I want to visit Ruse"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "Yambol",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm visiting Yambol"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 23,
+            "value": "Yambol",
+            "entity": "location"
+          }
+        ],
+        "text": "I'll be visiting Yambol"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 16,
+            "end": 23,
+            "value": "Hamburg",
+            "entity": "location"
+          }
+        ],
+        "text": "I want to go to Hamburg"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 20,
+            "end": 26,
+            "value": "Burgas",
+            "entity": "location"
+          }
+        ],
+        "text": "I want to travel to Burgas"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 23,
+            "value": "Burgas",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm traveling to Burgas"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 23,
+            "end": 29,
+            "value": "Burgas",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm going to travel to Burgas"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "London",
+            "entity": "location"
+          }
+        ],
+        "text": "I'm going to London"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "London",
+            "entity": "location"
+          },
+          {
+            "start": 23,
+            "end": 31,
+            "value": "Thursday",
+            "entity": "DATE"
+          },
+          {
+            "start": 44,
+            "end": 55,
+            "value": "restaurants",
+            "entity": "interest"
+          }
+        ],
+        "text": "I'm going to London on Thursday show me all restaurants"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 11,
+            "end": 25,
+            "value": "Veliko Turnovo",
+            "entity": "location"
+          },
+          {
+            "start": 29,
+            "end": 40,
+            "value": "May the 2nd",
+            "entity": "DATE"
+          },
+          {
+            "start": 53,
+            "end": 57,
+            "value": "bars",
+            "entity": "interest"
+          }
+        ],
+        "text": "I'll be in Veliko Turnovo on May the 2nd show me all bars"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 31,
+            "value": "Veliko Turnovo",
+            "entity": "location"
+          },
+          {
+            "start": 35,
+            "end": 47,
+            "value": "June the 5th",
+            "entity": "DATE"
+          },
+          {
+            "start": 60,
+            "end": 67,
+            "value": "museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "I'll be visiting Veliko Turnovo on June the 5th show me all museums"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 17,
+            "end": 31,
+            "value": "veliko turnovo",
+            "entity": "location"
+          },
+          {
+            "start": 35,
+            "end": 41,
+            "value": "5 days",
+            "entity": "DATE"
+          },
+          {
+            "start": 54,
+            "end": 61,
+            "value": "museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "I'll be visiting veliko turnovo in 5 days show me all museums"
+      },
+      {
+        "intent": "date",
+        "entities": [
+          {
+            "start": 0,
+            "end": 8,
+            "value": "Tomorrow",
+            "entity": "DATE"
+          }
+        ],
+        "text": "Tomorrow"
+      },
+      {
+        "intent": "countable",
+        "text": "double"
+      },
+      {
+        "intent": "countable",
+        "text": "single"
+      },
+      {
+        "intent": "countable",
+        "text": "triple"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 12,
+            "end": 18,
+            "value": "venice",
+            "entity": "location"
+          },
+          {
+            "start": 22,
+            "end": 30,
+            "value": "february",
+            "entity": "DATE"
+          },
+          {
+            "start": 43,
+            "end": 50,
+            "value": "museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "I wanna see venice in february show me all museums"
+      },
+      {
+        "intent": "visit",
+        "entities": [
+          {
+            "start": 12,
+            "end": 18,
+            "value": "venice",
+            "entity": "location"
+          },
+          {
+            "start": 22,
+            "end": 32,
+            "value": "the summer",
+            "entity": "DATE"
+          },
+          {
+            "start": 43,
+            "end": 50,
+            "value": "museums",
+            "entity": "interest"
+          }
+        ],
+        "text": "I wanna see venice in the summer show me all museums"
+      },
+      {
+        "intent": "end",
+        "text": "I'm done"
+      },
+      {
+        "intent": "end",
+        "text": "no more"
+      },
+      {
+        "intent": "end",
+        "text": "no more suggestions"
+      },
+      {
+        "intent": "end",
+        "text": "stop"
+      },
+      {
+        "intent": "end",
+        "text": "don't show me anymore suggestions"
+      },
+      {
+        "intent": "end",
+        "text": "that's enough"
+      },
+      {
+        "intent": "end",
+        "text": "enough"
+      },
+      {
+        "intent": "goodbye",
+        "text": "bye"
+      },
+      {
+        "intent": "goodbye",
+        "text": "goodbye"
+      },
+      {
+        "intent": "goodbye",
+        "text": "good bye"
+      },
+      {
+        "intent": "goodbye",
+        "text": "stop"
+      },
+      {
+        "intent": "goodbye",
+        "text": "end"
+      },
+      {
+        "intent": "goodbye",
+        "text": "farewell"
+      },
+      {
+        "intent": "goodbye",
+        "text": "Bye bye"
+      },
+      {
+        "intent": "goodbye",
+        "text": "have a good one"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "I want to book a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "book a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "I'm looking for a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "Want a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "I want a hotel"
+      },
+      {
+        "intent": "book_hotel",
+        "text": "Book me a hotel"
+      }
+    ],
+    "regex_features": [
+      {
+        "name": "greet",
+        "pattern": "hey[^\\s]*"
+      }
+    ],
+    "lookup_tables": [
+      {
+        "name": "location",
+        "elements": "./data/cities.txt"
+      },
+      {
+        "name": "countable",
+        "elements": "./data/countables.txt"
+      }
+    ],
+    "entity_synonyms": [
+      {
+        "value": "chinese",
+        "synonyms": [
+          "Chinese",
+          "Chines",
+          "chines"
+        ]
+      },
+      {
+        "value": "vegetarian",
+        "synonyms": [
+          "veggie",
+          "vegg"
+        ]
+      },
+      {
+        "value": "restaurant",
+        "synonyms": [
+          "place to eat",
+          "grill",
+          "dinner",
+          "pizzeria",
+          "eat"
+        ]
+      },
+      {
+        "value": "bar",
+        "synonyms": [
+          "pub",
+          "place to drink",
+          "drink"
+        ]
+      }
+    ]
+  }
+}
