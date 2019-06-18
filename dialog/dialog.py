@@ -432,9 +432,9 @@ class DialogFlow:
         logging.info("Processing: %s %s %s", intent, ents, box)
         # 2.1 check if intent matches greeting
 
-        if intent == 'greet' and not 'DATE' in ents:
-            self.reset()
-            return False, [self.greet()]
+        # if intent == 'greet' and not 'DATE' in ents:
+        #     self.reset()
+        #     return False, [self.greet()]
 
         if intent == 'back':
             self.go_back()
@@ -447,9 +447,9 @@ class DialogFlow:
 
         # 2.2 check if intent matches end
         replies = []
-        if not self.nlp.validate_intent(intent, ents):
-            return False, [msg_reply("I didn't expect that, can you rephrase?")]
-        elif intent == 'end' and self.terminating:
+        # if not self.nlp.validate_intent(intent, ents):
+        #     return False, [msg_reply("I didn't expect that, can you rephrase?")]
+        if intent == 'end' and self.terminating:
             self.terminating = False
             return False, self.terminate()  # [format_box_question(self.box, self.form)]
         if intent == 'end':
@@ -501,8 +501,8 @@ class DialogFlow:
             replies = self.set_intent(intent, ents)
 
         # Intent to update the form
-        if intent == 'change_form' and ents:
-            replies = [self.edit_form(ents)]
+        # if intent == 'change_form' and ents:
+        #     replies = [self.edit_form(ents)]
 
         # 2.4 check if intent matches current box
         current_box_validated, reply, matches = box.validate_answer(intent, ents)
