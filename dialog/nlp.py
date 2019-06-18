@@ -42,6 +42,7 @@ class DialogNlp:
             return True
         except ValueError:
             return False
+    
 
     def parse_intent(self, text):
         import dateparser
@@ -56,7 +57,10 @@ class DialogNlp:
             return "reset_all", {}
         elif lstr in ["single", "double", "triple"]:
             return "countable", {}
-        
+        elif lstr == 'confirm':
+            return 'affirm', {}
+        elif lstr == 'next':
+            return 'reject', {}        
 
         # print(intent_data)
         intent = intent_data['intent']['name']
@@ -70,9 +74,10 @@ class DialogNlp:
             m = entities.get(e['entity'], [])
             m.append(e['value'])
             entities[e['entity']] = m
+
         if text.isdigit():
             entities['CARDINAL'] = text
-        if self.is_date(text):
+        elif self.is_date(text):
             entities['DATE'] = text
         # if intent not in ['affirm', 'greet', 'reject', 'goodbye', 'end', 'change_form']:
         #     entities[intent] = intent

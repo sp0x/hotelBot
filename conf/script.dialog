@@ -40,7 +40,7 @@
             "question":"For how many people are you booking?",
             "accepted":"",
             "rejected":"Sorry, I couldn't catch the number of people you are booking for. Please, try again.",
-            "entities":"CARDINAL",
+            "entities":["CARDINAL","ORDINAL"],
             "attribute": "guest_count",
             "buttons": ["Back"]
         },
