@@ -42,6 +42,7 @@ class DialogNlp:
             return True
         except ValueError:
             return False
+    
 
     def parse_intent(self, text):
         intent_data = interpreter.parse(text)
@@ -66,7 +67,10 @@ class DialogNlp:
             m = entities.get(e['entity'], [])
             m.append(e['value'])
             entities[e['entity']] = m
-        if self.is_date(text):
+
+        if text.isdigit():
+            entities['CARDINAL'] = text
+        elif self.is_date(text):
             entities['DATE'] = text
         # if intent not in ['affirm', 'greet', 'reject', 'goodbye', 'end', 'change_form']:
         #     entities[intent] = intent
