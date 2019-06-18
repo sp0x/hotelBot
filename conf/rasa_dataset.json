@@ -691,6 +691,18 @@
           }
         ]
       },
+      { "text": "In a week", "intent":  "date", "entities":  [{"value":  "next week", "entity": "DATE"}]},
+      { "text": "Next a week", "intent":  "date", "entities":  [{"value":  "next week", "entity": "DATE"}]},
+      { "text": "this week", "intent":  "date", "entities":  [{"value":  "this week", "entity": "DATE"}]},
+      { "text": "A week ago", "intent":  "date", "entities":  [{"value":  "previous week", "entity": "DATE"}]},
+      { "text": "2 weeks ago", "intent":  "date", "entities":  [{"value":  "2 weeks ago", "entity": "DATE"}]},
+      { "text": "After a week", "intent":  "date", "entities":  [{"value":  "next week", "entity": "DATE"}]},
+      { "text": "Current week", "intent":  "date", "entities":  [{"value":  "this week", "entity": "DATE"}]},
+      { "text": "Last week", "intent":  "date", "entities":  [{"value":  "previous week", "entity": "DATE"}]},
+      { "text": "In one week", "intent":  "date", "entities":  [{"value":  "next week", "entity": "DATE"}]},
+      { "text": "In two weeks", "intent":  "date", "entities":  [{"value":  "after 2 weeks", "entity": "DATE"}]},
+      { "text": "In 1 weeks", "intent":  "date", "entities":  [{"value":  "next week", "entity": "DATE"}]},
+      { "text": "In 2 weeks", "intent":  "date", "entities":  [{"value":  "after 2 weeks", "entity": "DATE"}]},
       {
         "text": "I'll be in Veliko Turnovo on May the 2nd show me all bars",
         "intent": "visit",

@@ -437,7 +437,9 @@ class DialogFlow:
 
         # 2.2 check if intent matches end
         replies = []
-        if intent == 'end' and self.terminating:
+        if not self.nlp.validate_intent(intent, ents):
+            return False, [msg_reply("I didn't expect that, can you rephrase?")]
+        elif intent == 'end' and self.terminating:
             self.terminating = False
             return False, self.terminate()  # [format_box_question(self.box, self.form)]
         if intent == 'end':

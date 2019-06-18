@@ -27,6 +27,14 @@ class DialogNlp:
     def __init__(self, interest_intents):
         self.interest_intents = interest_intents
 
+    def validate_intent(self, intent, entities):
+        ent_keys = entities.keys()
+        failed = False
+        for key in ent_keys:
+            if key == 'DATE' and intent != 'date':
+                failed = True
+        return failed
+
     def parse_intent(self, text):
         intent_data = interpreter.parse(text)
         lstr = str(text).strip().lower()
