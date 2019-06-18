@@ -432,9 +432,9 @@ class DialogFlow:
         logging.info("Processing: %s %s %s", intent, ents, box)
         # 2.1 check if intent matches greeting
 
-        if intent == 'greet' and not 'DATE' in ents:
-            self.reset()
-            return False, [self.greet()]
+        # if intent == 'greet' and not 'DATE' in ents:
+        #     self.reset()
+        #     return False, [self.greet()]
 
         if intent == 'back':
             self.go_back()
@@ -499,10 +499,6 @@ class DialogFlow:
                     return self.is_done(), replies  # msg_replies(replies)
         elif intent in self.interest_intents:
             replies = self.set_intent(intent, ents)
-
-        # Intent to update the form
-        if intent == 'change_form' and ents:
-            replies = [self.edit_form(ents)]
 
         # 2.4 check if intent matches current box
         current_box_validated, reply, matches = box.validate_answer(intent, ents)
