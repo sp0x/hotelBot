@@ -518,8 +518,9 @@ class DialogFlow:
         # rep, itents_matched_boxes = self.match_all_intents(intent, ents)
         # # logging.info("Matched all intents: %s", rep)
         # current_matched_boxes.extend(itents_matched_boxes)
-        if self.is_start:
-            rep, itents_matched_boxes = self.match_all_intents(intent, ents)
+        # if self.is_start:
+        #     rep, itents_matched_boxes = self.match_all_intents(intent, ents)
+        
         # logging.info("Parsed intent: %s %s", str(intent), str(ents))
         # logging.info("Current box %s", self.box)
         # if len(rep) > 0:
