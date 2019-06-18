@@ -57,7 +57,10 @@ class DialogNlp:
             return "reset_all", {}
         elif lstr in ["single", "double", "triple"]:
             return "countable", {}
-        
+        elif lstr == 'confirm':
+            return 'affirm', {}
+        elif lstr == 'next':
+            return 'reject', {}        
 
         # print(intent_data)
         intent = intent_data['intent']['name']
