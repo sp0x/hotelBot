@@ -3,6 +3,7 @@ import os
 import random
 import logging
 import numpy as np
+
 try:
     import six
     from six.moves import urllib
@@ -58,7 +59,7 @@ def location_name(loc_or_str):
 
 def get_random_locations(location, query, count, probs, radius=3200, exclusions=None):
     cnt = random.randint(1, len(query_examples))
-    all_results = []
+    all_results = set()
     for c in range(cnt):
         if not query.has_query_keywords():
             keyword = np.random.choice(query_examples, p=probs)
@@ -71,8 +72,9 @@ def get_random_locations(location, query, count, probs, radius=3200, exclusions=
                                                        types=types)
         else:
             query_result = google_places.nearby_search(location=location, keyword=keywords, radius=radius, types=types)
-        all_results.extend(list(query_result.places))
-    randoms = random.choices(all_results, k=count)
+        for p in list(query_result.places):
+            all_results.add(p)
+    randoms = random.choices(list(all_results), k=count)
     output = format_places(randoms, exclusions)
     return output
 
@@ -101,7 +103,6 @@ def get_recommendation_for_location(location, query, count=1, radius=3200, exclu
 
 
 def _get_photo_url(photo: Photo, max_width, max_height):
-
     service_url = GooglePlaces.PHOTO_API_URL
     params = {'photoreference': photo.photo_reference,
               'sensor': str("").lower(),
@@ -118,8 +119,9 @@ def _get_photo_url(photo: Photo, max_width, max_height):
     request_url = query_url + encoded_data
     return request_url
 
+
 def format_places(places, exclusions):
-    output = []
+    output = list()
     for place in places:
         if exclusions is not None:
             logging.info("Place filters: %s", exclusions)
@@ -137,6 +139,13 @@ def format_places(places, exclusions):
                 'obj': p,
                 'url': photo_url
             })
+        exists = False
+        for o in output:
+            if o['title'] == place.name:
+                exists = True
+                break
+        if exists:
+            continue
         output.append({
             'title': place.name,
             'img': imgs,
