@@ -289,8 +289,13 @@ class DialogFlow:
             elif not self.initialized_suggestions:
                 # type = self.form['interests']
                 logging.info("Fetching first suggestions.")
-                self.fetch_initial_city_suggestions()
-                return self.next()
+                suggestions = self.fetch_initial_city_suggestions()
+                if len(suggestions) == 0:
+                    rep = msg_reply("Sorry I couldn't find any results that match your needs.")
+                    rep.buttons = ['Start over', 'Show me hotels again']
+                    return True, [rep]
+                else:
+                    return self.next()
             else:
                 itinerary_reply = self.create_itinerary()
                 itinerary_reply.prepend("I have all the information I need. Here's your itinerary ")

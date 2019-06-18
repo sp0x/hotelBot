@@ -5,41 +5,49 @@
     "interests": ["hotel", "countable"],
     "conversation":[
         {
-            "question":"I'll help you plan your trip. What do you want to do next?",
+            "question":"Hi, I'm the Netlyt hotel booking bot. I'll help you find a hotel that best fits your requirements.",
             "accepted":"",
-            "rejected":"Sorry, can't help with that. I'm still learning so right now I can only help you with booking hotels.",
+            "rejected":"Sorry, I didn't catch that. Say "I want to book a hotel" to proceed.",
             "intent":["visit", "book_hotel"],
             "buttons": ["I want to book a hotel"],
             "role": "greet"
         },
         {
-            "question":"Which city do you plan to visit?",
+            "question":"In which city do you want to book a hotel?",
             "accepted":"",
-            "rejected":"Sorry I didn't catch the name of the city. Can you type in just the name of the city?",
+            "rejected":"Sorry, I couldn't catch the name of the city. Please, try again.",
             "attribute":"city",
             "entities":["GPE","location", "ORG"],
             "intent":["visit"]
         },
         {
-            "question":"Great, when are you visiting {city}?",
+            "question":"Checking for hotels in {city}. What is the beginning date for the booking?",
             "accepted":"",
-            "rejected":"Sorry I didn't understand that date, can you try again with something like June 25?",
+            "rejected":"Sorry, I couldn't catch the date. Please, try again. Use a format like \"5th of July\".",
             "attribute":"date",
             "entities":"DATE",
             "buttons": ["Back"]
         },
         {
-            "question":"Okay, how many people are staying?",
+            "question":"What is the checkout date?",
             "accepted":"",
-            "rejected":"I didn't catch that. Can you use a different phrase, maybe try numbers?",
+            "rejected":"Sorry, I couldn't catch the date. Please, try again. Use a format like \"5th of July\".",
+            "attribute":"date_checkout",
+            "entities":"DATE",
+            "buttons": ["Back"]
+        },
+        {
+            "question":"For how many people are you booking?",
+            "accepted":"",
+            "rejected":"Sorry, I couldn't catch the number of people you are booking for. Please, try again.",
             "entities":"CARDINAL",
             "attribute": "guest_count",
             "buttons": ["Back"]
         },
         {
-            "question":"What rooms do you prefer?",
+            "question":"Okay, you are booking for {guest_count} people. What rooms are you looking for?",
             "accepted":"",
-            "rejected":"I didn't catch that. Can you use a different phrase, maybe Double rooms?",
+            "rejected":"Sorry, I couldn't catch that. Please, use the buttons to proceed.",
             "attribute": "room_type",
             "entities":"countable",
             "intent": ["countable"],
