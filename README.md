@@ -30,3 +30,10 @@ To build the bot run `sup local local_build` to build.
 To train the bot run `sup local train`  
 To start a debug shell `sup local debug` or if you're on windows
 debug.bat and then python main.py 
+
+
+# Networking
+Viber requires the bot have an internet facing url with https.  
+You can specify that in the VIBER_HOSTNAME environment variable.  
+All events from viber are sent to that url.
+Make sure it points to the bot. You might use Nginx with proxy_pass to help you out.

@@ -128,14 +128,19 @@ class Viber(ChatIface):
         k = None
         if keyboard is not None:
             k = keyboard._keyboard
-        pmsg = PictureMessage(text=rep.text, media=img_url, keyboard=k, thumbnail=img_url)
+        pmsg = PictureMessage(text=rep.text, media=img_url, keyboard=k)
         viber.send_messages(user_id, [pmsg])
 
     def send_keyboard(self, user_id, keyboard):
         viber = self.api
-        viber.send_messages(user_id, [
-            keyboard
-        ])
+        try:
+            viber.send_messages(user_id, [
+                keyboard
+            ])
+        except:
+            tb = traceback.format_exc()
+            logging.info(tb)
+            logging.info(ex)
 
     def send_replies(self, user_id, replies):
         viber = self.api
@@ -164,7 +169,9 @@ class Viber(ChatIface):
             if rep.img:
                 self.send_img(user_id, rep, keyboard=kbd)
             else:
-                self.send_keyboard(reply_text, kbd)
+                txtmsg = TextMessage(text=str(reply_text), keyboard=kbd)
+                viber.send_messages(user_id, [txtmsg])
+
         elif rep.type == 'place_list':
             logging.info("Reply itinerary: %s", reply_text)
             txtmsg = TextMessage(text=str(reply_text), keyboard=buttons_to_keyboard(rep.buttons))

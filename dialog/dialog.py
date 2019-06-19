@@ -215,9 +215,9 @@ class DialogFlow:
             })
 
         if date.lower() == 'tomorrow':
-            text = 'The hotel you chose for your trip to %s is'.format(city)
+            text = "The hotel you chose for your trip to {0} is ".format(city)
         else:
-            text = 'The hotel you chose for your trip to %s is '.format(city, date)
+            text = "The hotel you chose for your trip to {0} is ".format(city, date)
         text += booking_url + " \nMap: " + place_url + ""
         rep = Reply(None, 'place_list', text)
         rep.data = locations
