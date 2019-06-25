@@ -267,17 +267,17 @@ class Viber(ChatIface):
             "ActionBody": "No",
             "BgColor": "#f6f7f9",
         },
-            {
-                "Columns": 2,
-                "Rows": 2,
-                "Text": "<font color=\"#494E67\">Stop</font>",
-                "TextSize": "medium",
-                "TextHAlign": "center",
-                "TextVAlign": "middle",
-                "ActionType": "reply",
-                "ActionBody": "Stop",
-                "BgColor": "#f6f7f9",
-            }
+        {
+            "Columns": 2,
+            "Rows": 2,
+            "Text": "<font color=\"#494E67\">Stop</font>",
+            "TextSize": "medium",
+            "TextHAlign": "center",
+            "TextVAlign": "middle",
+            "ActionType": "reply",
+            "ActionBody": "Stop",
+            "BgColor": "#f6f7f9",
+        }
         ]
         if additional_buttons:
             buttons.extend([{
