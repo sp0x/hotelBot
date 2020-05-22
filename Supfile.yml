@@ -3,18 +3,18 @@ version: 0.4
 #The environment vars you'll use
 env:
   NAME: flight_bot
-  BRANCH: master
   IMAGE: netlyt/flight_bot
-  PROJDIR: /var/netlyt/environments/
+  DIR: /var/netlyt/environments/$IMAGE
   REGISTRY: registry.netlyt.io:5000
   HOST_PORT: 8801
   CONTAINER_PORT: 5000
+  USER: vasko
 
 networks:
   # The staging directory
-  stg:
+  staging:
     hosts:
-      - v_m_naydenova@35.243.173.143
+      - ibm.netlyt.io
 
   # Dev envir. for localhost only
   dev:
@@ -39,20 +39,27 @@ commands:
     desc: Initialize directory
     run: mkdir -p $PROJDIR$IMAGE
 
-  build:
-    desc: Build Docker image from current directory, push to Docker Hub
-    # local: sup $SUP_ENV -f ./builder/Supfile $SUP_NETWORK build
-    upload:
-      - src: ./
-        dst: $PROJDIR$IMAGE
-        exclude: venv,.git
+  prepare:
+    desc: Build the docker images locally
+    local: docker-compose build
 
-    script: ./scripts/docker-build.sh
-    once: true
+  push-local:
+    desc: Pushes the image
+    local: docker-compose push
+
 
   local_build:
     desc: Builkd docker image localy
     local: docker build -t $NAME .
+
+  upload:
+    desc: Build Docker image from current directory, push to Docker Hub
+    # local: sup $SUP_ENV -f ./builder/Supfile $SUP_NETWORK build
+    upload:
+      - src: docker-compose.yml
+        dst: $DIR
+      - src: .env
+        dst: $DIR
 
   debug:
     desc: Debug ..
@@ -67,9 +74,6 @@ commands:
     desc: Train model
     local: docker run --env-file=.env $NAME __init__.py --train
 
-  pull:
-    desc: Pull latest Docker image
-    run: sudo docker pull $REGISTRY/$IMAGE
 
   config:
     desc: Upload/test config file.
@@ -78,74 +82,67 @@ commands:
         dst: $PROJDIR$IMAGE
     run: test -f $PROJDIR$IMAGE/example.$SUP_NETWORK.cfg
 
-  stop:
-    desc: Stop Docker container
-    run: sudo docker stop $NAME || exit 0
-
-  rm:
-    desc: Remove Docker container
-    run: sudo docker rm $NAME || exit 0
-
-  start:
-    desc: Start a stopped Docker container
-    run: sudo docker start $NAME || exit 0
-
-#  run_with_config:
-#    desc: Run Docker container
-#    run: >
-#      sudo docker run -d \
-#        -p $HOST_PORT:$CONTAINER_PORT \
-#        -v $PROJDIRexample.$SUP_NETWORK.cfg:/etc/example.cfg \
-#        --restart=always \
-#        --name $NAME $IMAGE
-
-  run:
-    desc: Run Docker container
-    chdir: $PROJDIR$IMAGE
-    run: >
-      sudo docker run --env-file=.env -d \
-        -p $HOST_PORT:$CONTAINER_PORT \
-        --restart=always \
-        --name $NAME $NAME
 
   local_start_shell:
     desc: Run docker interactive
     local: >
       docker run --env-file=.env -it $NAME
 
+  pull:
+    desc: Pull latest Docker image
+    run: sudo docker-compose pull
+    chdir: $DIR
+
+  stop:
+    desc: Stop Docker container
+    run: sudo docker-compose stop $SERVICE_NAME || exit 0
+    chdir: $DIR
+
+  rm:
+    desc: Remove Docker container
+    run: sudo docker-compose rm -f $SERVICE_NAME || exit 0
+    chdir: $DIR
+
+  start:
+    desc: Start a stopped Docker container
+    run: sudo docker-compose start $SERVICE_NAME || exit 0
+    chdir: $DIR
+
+  run:
+    desc: Run Docker container
+    run: sudo docker-compose up -d $SERVICE_NAME
+    chdir: $DIR
 
 
   restart:
     desc: Restart Docker container
-    run: sudo docker restart $NAME || exit 0
+    run: sudo docker-compose restart $SERVICE_NAME || exit 0
+    chdir: $DIR
 
   stop-rm-run:
     desc: Rolling update (stop & remove old Docker container, run new one)
-    chdir: $PROJDIR$IMAGE
-    run: >
-      sudo docker stop $NAME || :; \
-        sudo docker rm $NAME || :; \
-        sudo docker run --env-file=.env -d \
-          -p $HOST_PORT:$CONTAINER_PORT \
-          --restart=always \
-          --name $NAME $NAME
+    run: sudo docker-compose stop $SERVICE_NAME; sudo docker-compose rm -f $SERVICE_NAME; sudo docker-compose up -d $SERVICE_NAME
     serial: 1
+    chdir: $DIR
 
   ps:
     desc: List running Docker containers
-    run: sudo docker ps | grep $NAME
+    run: sudo docker-compose ps
+    chdir: $DIR
 
   logs:
     desc: Docker logs
-    run: sudo docker logs $NAME
+    run: sudo docker-compose logs $SERVICE_NAME
+    chdir: $DIR
 
   tail-logs:
     desc: Tail Docker logs
-    run: sudo docker logs --tail=20 -f $NAME
+    run: sudo docker-compose logs -f --tail 10 $SERVICE_NAME
+    chdir: $DIR
 
   health:
     desc: Application health check
-    run: curl localhost:$HOST_PORT/health-check
+    run: curl localhost:$HOST_PORT
 
   slack-notify:
     desc: Notify Slack about new deployment
@@ -158,7 +155,9 @@ targets:
   #The deployment target command, it runs multiple commands one after another, ensuring the previous one returned 0
   deploy:
     - pre-build
-    - build
+    - prepare
+    - push-local
+    - upload
     - pull
     - stop-rm-run
     - ps
