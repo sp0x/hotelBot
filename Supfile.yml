@@ -144,13 +144,6 @@ commands:
     desc: Application health check
     run: curl localhost:$HOST_PORT
 
-  slack-notify:
-    desc: Notify Slack about new deployment
-    run: >
-      curl -X POST --data-urlencode 'payload={"channel": "#dev", "text": "['$SUP_NETWORK'] '$SUP_USER' deployed '$IMAGE'. Access through http://'$(curl ifconfig.co):$HOST_PORT'"}' \
-        https://hooks.slack.com/services/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
-
-
 targets:
   #The deployment target command, it runs multiple commands one after another, ensuring the previous one returned 0
   deploy:
@@ -162,4 +155,3 @@ targets:
     - stop-rm-run
     - ps
     - logs
-    - slack-notify
